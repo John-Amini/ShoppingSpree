@@ -1,0 +1,11 @@
+.grid{
+    width: 1250px;
+    margin: 0 auto;
+}
+
+.point{
+    width: 25px;
+    height: 25px;
+    outline:1px solid black;
+    display:inline-block;
+}
