@@ -14,7 +14,11 @@ const Grid = (props) =>{
     const [isMouseDown,setIsMouseDown] = useState(false)
     const [random,setRandom] = useState(true)
     let currPointer = props.currPointer;
-    useEffect( () => {
+    const handleOnClear = () => {
+        let newGrid = clearGrid()
+        setGrid(newGrid)
+    }
+    function clearGrid(){
         let newGrid = []
         for(let i = 0 ; i < rows ; i++){
             let currRow = [];
@@ -22,20 +26,20 @@ const Grid = (props) =>{
                 currRow.push({
                     row:i,
                     column:j,
-                    type:null
+                    type:"none"
                 })
             }
             newGrid.push(currRow)
         }
+        return newGrid;
+    }
+    useEffect( () => {
+        let newGrid = clearGrid();
         setGrid(newGrid)
 
     },[])
     function mouseDown(row,col,e,type){
         let newGrid = handleChange(row,col,grid);
-
-        // console.log("Adding css class to" ,row,col)
-        // e.target.classList.remove("none","wall","start","end")
-        // e.target.classList.add(type)
         setGrid(newGrid)
         setIsMouseDown(true)
 
@@ -62,6 +66,9 @@ const Grid = (props) =>{
     function handleChange(row,col,grid){
         let newGrid = grid;
         if(newGrid[row][col].type === null || newGrid[row][col].type !== currPointer){
+            if(currPointer === 'start' || currPointer === 'end'){
+                resetStartInGrid();
+            }
             newGrid[row][col].type = currPointer
         }
          else if(newGrid[row][col].type === currPointer){
@@ -69,7 +76,13 @@ const Grid = (props) =>{
          }
          return newGrid
     }
-
+    function resetStartInGrid(){
+        for(let i = 0 ; i < rows ; i++ ){
+            for (let j = 0 ; j < columns;j++){
+                if(grid[i][j].type === currPointer ) grid[i][j].type = "none"
+            }
+        }
+    }
     async function handleSaveLayout(e){
         await dispatch(saveCurrentLayout(grid))
     }
@@ -77,6 +90,11 @@ const Grid = (props) =>{
         <button onClick={ async (e)=>{
             handleSaveLayout(e)
         }}> Save Layout </button>
+
+        {"LAYOUT NAME HERE OR PLACEHOLDER"}
+            <button>Edit name</button>
+            <button onClick={handleOnClear}>Clear Layout</button>
+        <button>Delete Layout</button>
     <div className="grid">
     {grid.map((currRow,currRowIndex) => {
         // return <Point x={1}></Point>
