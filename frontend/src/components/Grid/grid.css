@@ -3,9 +3,28 @@
     margin: 0 auto;
 }
 
+.column{
+    margin-bottom: 0;
+    height: 20px;
+}
 .point{
-    width: 25px;
-    height: 25px;
-    outline:1px solid black;
+    width: 20px;
+    height: 20px;
+    outline:1px solid skyblue;
     display:inline-block;
+    margin-bottom: 0;
+}
+
+.wall{
+    background-color: blue;
+}
+
+.wall:hover{
+    background-color: black;
+}
+.start{
+    background-color: orange;
+}
+.end{
+    background-color: green;
 }

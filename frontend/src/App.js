@@ -7,10 +7,12 @@ import * as sessionActions from './store/session';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
 import Grid from './components/Grid';
+import SelectType from './components/SelectType';
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [currPointer,setCurrPointer] = useState(null)
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -34,8 +36,8 @@ function App() {
           </Route>
         </Switch>
       )}
-
-      <Grid></Grid>
+    <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
+      <Grid currPointer={currPointer}></Grid>
     </>
   );
 }
