@@ -8,7 +8,8 @@ export const saveCurrentLayout = (grid) => async dispatch => {
 }
 
 let initialState ={
-    currLayout:null
+    currLayout:null,
+    layoutList:null
 }
 const layoutReducer = (state = initialState,action) => {
     let newState = {}

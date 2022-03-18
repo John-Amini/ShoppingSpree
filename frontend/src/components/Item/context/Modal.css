@@ -1,0 +1,121 @@
+/* frontend/src/context/Modal.css */
+#modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+#modal-content {
+  padding: 40px;
+  border-radius: 10px;
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  background-color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#modal-content form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+
+#modal-content input {
+  margin: 10px;
+}
+
+
+#modal-content2 {
+  padding: 40px;
+  border-radius: 10px;
+  width: 500px;
+  height: 500px;
+  position: absolute;
+  background-color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#modal-content2 form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 300px;
+}
+
+#modal-content2 input {
+  margin: 10px;
+}
+
+#modal-content2 textarea {
+  width: 300px;
+  height: 300px;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 500px;
+  background-color: #FFF;
+  color: black;
+  border-radius: 3px;
+}
+
+.modal-header, .modal-footer {
+  padding: 10px;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.modal-body {
+  padding: 10px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-body div {
+  margin-bottom: 20px;
+}

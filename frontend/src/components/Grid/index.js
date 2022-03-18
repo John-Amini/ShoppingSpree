@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import { saveCurrentLayout } from "../../store/layout";
 import Point from "../Point";
+import CreateLayoutForm from "./CreateNewLayoutForm";
+import Item from "../Item";
 import "./grid.css"
 // use  context provider to determine what ill be clicking?
 const Grid = (props) =>{
@@ -13,7 +15,13 @@ const Grid = (props) =>{
     const [grid,setGrid] = useState([]);
     const [isMouseDown,setIsMouseDown] = useState(false)
     const [random,setRandom] = useState(true)
+    const [showModal, setShowModal] = useState(false);
     let currPointer = props.currPointer;
+
+    const toggleCreateWatchlistForm = async e => {
+        setShowModal(true);
+      };
+
     const handleOnClear = () => {
         let newGrid = clearGrid()
         setGrid(newGrid)
@@ -95,6 +103,9 @@ const Grid = (props) =>{
             <button>Edit name</button>
             <button onClick={handleOnClear}>Clear Layout</button>
         <button>Delete Layout</button>
+        <button onClick={toggleCreateWatchlistForm}>Create New</button>
+        {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
+        <Item></Item>
     <div className="grid">
     {grid.map((currRow,currRowIndex) => {
         // return <Point x={1}></Point>
