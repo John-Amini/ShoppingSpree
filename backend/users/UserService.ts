@@ -1,6 +1,8 @@
 import autoBind from 'auto-bind'
 import { UserRepository } from "./UserRepository";
 import bcrypt from "bcryptjs";
+import { LayoutService } from '../layouts/LayoutService';
+import { LayoutRepository } from '../layouts/LayoutRepository';
 
 export class UserService {
     constructor(private userRepo : UserRepository){
@@ -16,6 +18,9 @@ export class UserService {
     }
 
     public async signup(username: string, email: string, password: string) {
-        return await this.userRepo.create(username, email, password);
+        let layoutService = new LayoutService(new LayoutRepository);
+        let user = await this.userRepo.create(username, email, password);
+        let layout = await layoutService.makeDefault(user.id)
+        return user
     }
 }

@@ -1,27 +1,52 @@
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux";
-import { saveCurrentLayout } from "../../store/layout";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteLayout, loadLayouts, LoadOneLayout, saveCurrentLayout } from "../../store/layout";
 import Point from "../Point";
 import CreateLayoutForm from "./CreateNewLayoutForm";
 import Item from "../Item";
 import "./grid.css"
+import SelectLayoutList from "./selectLayoutList";
 // use  context provider to determine what ill be clicking?
 const Grid = (props) =>{
-    let start = "start"
-    let end = "end"
     let rows = 30
-    let dispatch = useDispatch()
     let columns = 62
+    const start = "start"
+    const end = "end"
+    let dispatch = useDispatch()
     const [grid,setGrid] = useState([]);
     const [isMouseDown,setIsMouseDown] = useState(false)
     const [random,setRandom] = useState(true)
     const [showModal, setShowModal] = useState(false);
     let currPointer = props.currPointer;
-
+    const sessionUser = useSelector(state => state.session.user);
+    let currLayout =useSelector (state => state.layouts.currLayout)
+    let layoutList = useSelector(state => state.layouts.layoutList)
+    let [name,setName] = useState('')
+    useEffect( () => {
+        if(currLayout)
+        setName(currLayout.name)
+    },[currLayout])
     const toggleCreateWatchlistForm = async e => {
         setShowModal(true);
       };
-
+    const copyCurrLayoutGridToGrid = () => {
+        console.log("in Copy currLayout")
+        if(!currLayout) return
+        console.log("copying curr layout")
+        let newGrid = []
+        for(let i = 0 ; i < rows ; i++){
+            let currRow = [];
+            for(let j = 0 ; j < columns ; j++){
+                currRow.push({
+                    row:i,
+                    column:j,
+                    type: currLayout.layout[i][j].type
+                })
+            }
+            newGrid.push(currRow)
+        }
+        setGrid(newGrid)
+    }
     const handleOnClear = () => {
         let newGrid = clearGrid()
         setGrid(newGrid)
@@ -44,8 +69,9 @@ const Grid = (props) =>{
     useEffect( () => {
         let newGrid = clearGrid();
         setGrid(newGrid)
+        copyCurrLayoutGridToGrid()
 
-    },[])
+    },[currLayout])
     function mouseDown(row,col,e,type){
         let newGrid = handleChange(row,col,grid);
         setGrid(newGrid)
@@ -80,7 +106,7 @@ const Grid = (props) =>{
             newGrid[row][col].type = currPointer
         }
          else if(newGrid[row][col].type === currPointer){
-            newGrid[row][col].type = null
+            newGrid[row][col].type = 'none'
          }
          return newGrid
     }
@@ -92,17 +118,31 @@ const Grid = (props) =>{
         }
     }
     async function handleSaveLayout(e){
-        await dispatch(saveCurrentLayout(grid))
+        await dispatch(saveCurrentLayout(grid,currLayout.id))
+    }
+    function handleNameChange(e){
+        setName(e.target.value)
+    }
+    async function handleDelete(e){
+        await dispatch(deleteLayout(currLayout.id))
+        await dispatch(LoadOneLayout(layoutList[0].id))
     }
     return <div>
+        <SelectLayoutList></SelectLayoutList>
         <button onClick={ async (e)=>{
             handleSaveLayout(e)
         }}> Save Layout </button>
 
-        {"LAYOUT NAME HERE OR PLACEHOLDER"}
-            <button>Edit name</button>
-            <button onClick={handleOnClear}>Clear Layout</button>
-        <button>Delete Layout</button>
+        {/* {currLayout &&
+        <span contenteditable="true"
+        onChange={(e) => {
+            handleNameChange(e)
+        }}>
+            {name} </span>} */}
+        {currLayout && currLayout.name}
+        <button>Edit name</button>
+        <button onClick={handleOnClear}>Clear Layout</button>
+        <button onClick={(e) => handleDelete(e)}>Delete Layout</button>
         <button onClick={toggleCreateWatchlistForm}>Create New</button>
         {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
         <Item></Item>

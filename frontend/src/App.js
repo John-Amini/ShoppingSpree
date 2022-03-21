@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import SignupFormPage from './components/SignupFormPage';
 // import LoginFormPage from "./components/LoginFormPage";
@@ -8,36 +8,42 @@ import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
 import Grid from './components/Grid';
 import SelectType from './components/SelectType';
+import { loadLayouts } from './store/layout';
+import LoginFormPage from './components/LoginFormPage';
 function App() {
+
   const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user)
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);s
   const [currPointer,setCurrPointer] = useState(null)
-  useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+  useEffect(async () => {
+    if(sessionUser)
+      await dispatch(loadLayouts())
+    await dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+
   }, [dispatch]);
+  useEffect(async () => {
+    await dispatch(loadLayouts())
+
+  },[])
 
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <button onClick={() => setShowModal(true)}>Modal</button>
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <h1>Hello I am a Modal</h1>
-        </Modal>
-      )}
       {isLoaded && (
         <Switch>
-          {/* <Route path="/login" >
+          <Route path="/login" >
             <LoginFormPage />
-          </Route> */}
+          </Route>
           <Route path='/signup'>
             <SignupFormPage />
           </Route>
         </Switch>
       )}
-    <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
-      <Grid currPointer={currPointer}></Grid>
+    {sessionUser && <> <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
+      <Grid currPointer={currPointer}></Grid> </> }
+
     </>
   );
 }

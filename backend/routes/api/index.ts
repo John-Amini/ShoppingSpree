@@ -2,7 +2,8 @@ const router = require("express").Router();
 import sessionRouter from "./session";
 //const usersRouter = require("./users.ts");
 import usersRouter  from "./users";
-
+import layoutRouter from "./layout"
+import itemRouter from  "./item"
 // // GET /api/set-token-cookie
 // const asyncHandler = require('express-async-handler');
 // const { setTokenCookie } = require('../../utils/auth.js');
@@ -45,5 +46,8 @@ router.use("/session", sessionRouter);
 
 router.use("/users", usersRouter);
 
+router.use("/layouts",layoutRouter)
+
+router.use("/items",itemRouter)
 
 export default router;

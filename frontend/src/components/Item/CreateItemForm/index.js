@@ -1,17 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { createItem } from "../../../store/item"
 import { Modal2 } from "../context/Modal"
 
 const CreateItemForm = ({showModal,setShowModal}) => {
     const [name,setName] = useState('')
-    // const [weight,setWeight] = useState('')
+    const [weight,setWeight] = useState('')
     const [validationErrors,setValidationErrors] = useState([])
     const updateName = e => setName(e.target.value)
-    // const updateWeight = e => setWeight (e.target.value)
+    const updateWeight = e => setWeight (e.target.value)
+    const dispatch = useDispatch();
+    const currLayout = useSelector(state => state.layouts.currLayout)
+    useEffect(()=> {
+        if(!/^[0-9]+$/.test(weight));
+
+
+    },[weight])
     const handleSubmit = async e => {
         e.preventDefault();
         const errors = [];
         if(name){
-            let createdItem = {} //dispatch here
+            let createdItem = await dispatch(createItem(name,currLayout.id,weight))
             if(createdItem.error){
                 errors.push(createdItem.error);
                 setValidationErrors(errors)
@@ -45,7 +54,14 @@ const CreateItemForm = ({showModal,setShowModal}) => {
             placeholder="Name"
             value={name}
             onChange={updateName}>
-                </input>
+            </input>
+            <input
+            type="number"
+            id="weightInput"
+            placeholder="Weight"
+            value={weight}
+            onChange={updateWeight}>
+            </input>
             <input id="submitCreateItem" type="submit"></input>
                 </form>
             </div>

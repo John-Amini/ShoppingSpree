@@ -1,0 +1,26 @@
+.itemListContainer{
+    background-color: red;
+    border: 2px solid black ;
+    height: 100px;
+    overflow-y: scroll;
+    align-items: center;
+    display: flex;
+    flex-direction:column;
+
+}
+.wrapper{
+    overflow: hidden;
+}
+
+/* .rightContainer {
+    width: inherit;
+    max-height: inherit;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--rh-dark-base);
+    border: 1px solid var(--rh-dark-border);
+    border-radius: 4px;
+    position: fixed;
+  } */

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
+import { createNewLayout } from "../../../store/layout";
 import { Modal2 } from './context/Modal'
 const CreateLayoutForm = ({showModal,setShowModal}) => {
     const sessionUser = useSelector(state => state.session.user);
@@ -8,7 +9,7 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
     const [validationErrors, setValidationErrors] = useState([]);
 
     const updateTitle = e => setTitle(e.target.value);
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
       const errors = [];
       if (title) {
@@ -17,7 +18,7 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
 
         button.disabled = true;
         titleInput.disabled = true;
-        let createdWatchlist ={} //dispatch here
+        let createdWatchlist = await dispatch(createNewLayout(title))
         if (createdWatchlist.error) {
           errors.push(createdWatchlist.error);
           button.disabled = false;

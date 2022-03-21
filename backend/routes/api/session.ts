@@ -35,8 +35,7 @@ router.post(
 
       //const user = await User.login({ credential, password });
 
-    if (user !== null) {
-
+    if (user === null) {
       const err = new Error('Login failed') as any;
       err.status = 401;
       err.title = 'Login failed';
@@ -66,6 +65,7 @@ router.get(
   '/',
   restoreUser,
   (req, res) => {
+    //user is undefined
     const { user } = req;
     if (user) {
       return res.json({

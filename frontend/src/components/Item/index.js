@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import ItemList from "../ItemList"
 import CreateItemForm from "./CreateItemForm"
 
 const Item = () => {
@@ -13,6 +14,7 @@ const Item = () => {
     return (
     <div className="itemsFullContainer">
         <button onClick={toggleShowItemCreateModal}>Create New Item</button>
+        <ItemList></ItemList>
         {showItemCreateModal && <CreateItemForm showModal={showItemCreateModal}
         setShowModal={setShowItemCreateModal}
         ></CreateItemForm>}

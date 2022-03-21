@@ -5,7 +5,6 @@ import { User, UserWithoutPassword } from "./types";
 export class UserRepository {
 
     UserConn = db.User;
-
     constructor() {
     }
 
