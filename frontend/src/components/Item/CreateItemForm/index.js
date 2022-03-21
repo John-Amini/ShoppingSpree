@@ -2,11 +2,12 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createItem } from "../../../store/item"
 import { Modal2 } from "../context/Modal"
-
+import { SketchPicker,CompactPicker } from 'react-color';
 const CreateItemForm = ({showModal,setShowModal}) => {
     const [name,setName] = useState('')
     const [weight,setWeight] = useState('')
     const [validationErrors,setValidationErrors] = useState([])
+    const [color,setColor] = useState('#fff')
     const updateName = e => setName(e.target.value)
     const updateWeight = e => setWeight (e.target.value)
     const dispatch = useDispatch();
@@ -29,6 +30,9 @@ const CreateItemForm = ({showModal,setShowModal}) => {
                 setShowModal(false)
             }
         }
+    }
+    const handleColorPick =(color) => {
+        setColor(color.hex)
     }
     let count = 0
     return (
@@ -62,6 +66,9 @@ const CreateItemForm = ({showModal,setShowModal}) => {
             value={weight}
             onChange={updateWeight}>
             </input>
+            <SketchPicker
+            color={ color}
+            onChangeComplete={ handleColorPick}></SketchPicker>
             <input id="submitCreateItem" type="submit"></input>
                 </form>
             </div>

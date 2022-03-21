@@ -18,4 +18,17 @@ export class ItemRepository {
         })
         return items;
     }
+    public async updateItem (itemId:number,name:string, weight:number): Promise<Item>{
+        const item = await this.ItemConn.update({
+            name,weight
+        },
+        {where:{id:itemId}})
+        return this.ItemConn.findByPk(itemId);
+    }
+
+    public async deleteItem(itemId:number):Promise<Item>{
+        const item = await this.ItemConn.findByPk(itemId)
+        await item.destroy();
+        return item;
+    }
 }

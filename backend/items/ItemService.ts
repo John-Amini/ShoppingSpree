@@ -13,4 +13,12 @@ export class ItemService{
         const items = await this.itemRepo.getItems(layoutId);
         return items
     }
+    public async updateItem(itemId:number, name:string, weight:number): Promise<Item>{
+        const item = await this.itemRepo.updateItem(itemId,name,weight)
+        return item;
+    }
+    public async deleteItem (itemId:number):Promise<Item>{
+        const item = await this.itemRepo.deleteItem(itemId)
+        return item;
+    }
 }

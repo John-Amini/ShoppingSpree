@@ -12,6 +12,9 @@
     overflow: hidden;
 }
 
+.indiItem{
+    display: flex;
+}
 /* .rightContainer {
     width: inherit;
     max-height: inherit;
