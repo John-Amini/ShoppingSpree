@@ -21,6 +21,7 @@ const Grid = (props) =>{
     const sessionUser = useSelector(state => state.session.user);
     let currLayout =useSelector (state => state.layouts.currLayout)
     let layoutList = useSelector(state => state.layouts.layoutList)
+    let items = useSelector(state=>state.items)
     let [name,setName] = useState('')
     useEffect( () => {
         if(currLayout)
@@ -40,7 +41,8 @@ const Grid = (props) =>{
                 currRow.push({
                     row:i,
                     column:j,
-                    type: currLayout.layout[i][j].type
+                    type: currLayout.layout[i][j].type,
+                    color:currLayout.layout[i][j].color
                 })
             }
             newGrid.push(currRow)
@@ -99,14 +101,27 @@ const Grid = (props) =>{
 
     function handleChange(row,col,grid){
         let newGrid = grid;
-        if(newGrid[row][col].type === null || newGrid[row][col].type !== currPointer){
+        if(newGrid[row][col].type === 'none' || newGrid[row][col].type !== currPointer){
             if(currPointer === 'start' || currPointer === 'end'){
                 resetStartInGrid();
             }
             newGrid[row][col].type = currPointer
+            newGrid[row][col].color = ""
+            if( !isNaN(currPointer)){
+                //currPointer is an id
+                if(items.items){
+                    let item;
+                    for(let i = 0 ; i < items.items.length;i++){
+                        if(items.items[i].id == currPointer)
+                        newGrid[row][col].color = items.items[i].color
+                    }
+                }
+            }
         }
          else if(newGrid[row][col].type === currPointer){
             newGrid[row][col].type = 'none'
+            newGrid[row][col].color = ""
+
          }
          return newGrid
     }
@@ -155,6 +170,7 @@ const Grid = (props) =>{
          x={currRowIndex}
          y={currColumnIndex}
          type={grid[currRowIndex][currColumnIndex].type}
+         color={grid[currRowIndex][currColumnIndex].color}
          rows={rows}
          columns={columns}
          currPointer={currPointer}

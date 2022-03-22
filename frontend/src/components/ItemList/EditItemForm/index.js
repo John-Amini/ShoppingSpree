@@ -2,15 +2,19 @@ import { useState } from "react"
 import { useDispatch } from "react-redux";
 import { updateItem } from "../../../store/item";
 import { Modal2 } from "../../Item/context/Modal"
+import { SketchPicker,CompactPicker } from 'react-color';
+
 import './editItem.css'
 function EditItemForm({item}) {
     const [showModal, setShowModal] = useState(false);
     const [name,setName] = useState(item.name)
     const [weight,setWeight] = useState(item.weight)
+    const [color,setColor] = useState(item.color)
+
     const dispatch = useDispatch()
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let updatedItem = await dispatch(updateItem(item.id,name,weight)) //dispatch
+        let updatedItem = await dispatch(updateItem(item.id,name,weight,color)) //dispatch
         if(updatedItem.errors){
             //show errors
         } else{
@@ -21,6 +25,9 @@ function EditItemForm({item}) {
     const updateWeight = (e) => setWeight(e.target.value)
     const toggleModal = e => setShowModal(true)
 
+    const handleColorPick =(color) => {
+        setColor(color.hex)
+    }
 
 return <div className="editItemContainer">
       <button onClick={toggleModal}> Edit Item</button>
@@ -43,6 +50,9 @@ return <div className="editItemContainer">
     onChange={updateWeight}
     >
     </input>
+    <CompactPicker
+            color={ color}
+            onChangeComplete={ handleColorPick}></CompactPicker>
     <input id='submitEditItem' type={'submit'}></input>
 
     </form>

@@ -21,7 +21,7 @@ const CreateItemForm = ({showModal,setShowModal}) => {
         e.preventDefault();
         const errors = [];
         if(name){
-            let createdItem = await dispatch(createItem(name,currLayout.id,weight))
+            let createdItem = await dispatch(createItem(name,currLayout.id,weight,color))
             if(createdItem.error){
                 errors.push(createdItem.error);
                 setValidationErrors(errors)
@@ -66,9 +66,9 @@ const CreateItemForm = ({showModal,setShowModal}) => {
             value={weight}
             onChange={updateWeight}>
             </input>
-            <SketchPicker
+            <CompactPicker
             color={ color}
-            onChangeComplete={ handleColorPick}></SketchPicker>
+            onChangeComplete={ handleColorPick}></CompactPicker>
             <input id="submitCreateItem" type="submit"></input>
                 </form>
             </div>

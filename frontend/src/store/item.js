@@ -24,14 +24,16 @@ const loadItemsType = items => ({
     payload:items
 })
 
-export const createItem = (name,layoutId,weight) => async dispatch => {
+export const createItem = (name,layoutId,weight,color) => async dispatch => {
     console.log("createItem")
+    console.log(color)
+
     let response = await csrfFetch(`/api/items/${layoutId}`,{
         method:'POST',
         headers:{
             "Content-Type":"application/json"
         },
-        body:JSON.stringify({name,weight})
+        body:JSON.stringify({name,weight,color})
     })
 
     if(response.ok){
@@ -54,14 +56,14 @@ export const loadItems = (layoutId) => async dispatch => {
         console.log("loadItems bad")
     }
 }
-export const updateItem = (itemId,name,weight) => async dispatch => {
+export const updateItem = (itemId,name,weight,color) => async dispatch => {
     console.log("updateItem")
     let response = await csrfFetch(`/api/items/${itemId}`,{
         method:"PUT",
         headers:{
             "Content-Type":"application/json"
         },
-        body:JSON.stringify({name,weight})
+        body:JSON.stringify({name,weight,color})
     })
     if(response.ok){
         console.log("updateItem okay")

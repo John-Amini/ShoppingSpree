@@ -19,8 +19,9 @@ router.post("/:layoutId",requireAuth,asyncHandler(async (req,res) => {
     console.log(layoutId)
     const name = req.body.name
     const weight = req.body.weight
+    const color = req.body.color
     const itemService  = getNewItemService()
-    const item  = await itemService.createItem(layoutId,name,weight)
+    const item  = await itemService.createItem(layoutId,name,weight,color)
     return res.json(item)
 }))
 
@@ -37,8 +38,9 @@ router.put("/:itemId",requireAuth,asyncHandler(async(req,res)=>{
     const {itemId} = req.params;
     const name = req.body.name;
     const weight = parseInt(req.body.weight)
+    const color = req.body.color
     const itemService  = getNewItemService()
-    const item = await itemService.updateItem(itemId,name,weight)
+    const item = await itemService.updateItem(itemId,name,weight, color)
     return res.json(item);
 }))
 

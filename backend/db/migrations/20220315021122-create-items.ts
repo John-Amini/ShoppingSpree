@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references:{model:"Layouts"}
       },
+      color:{
+        allowNull:false,
+        type:Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

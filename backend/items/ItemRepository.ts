@@ -4,9 +4,9 @@ import { Item } from "./types"
 export class ItemRepository {
     ItemConn = db.Item;
     constructor(){}
-    public async createItem(layoutId:number,name:string,weight:number) :Promise<Item>{
+    public async createItem(layoutId:number,name:string,weight:number,color:string) :Promise<Item>{
         const item = await this.ItemConn.create({
-            layoutId,name,weight
+            layoutId,name,weight,color
         })
         return await this.ItemConn.findByPk(item.id)
     }
@@ -18,9 +18,9 @@ export class ItemRepository {
         })
         return items;
     }
-    public async updateItem (itemId:number,name:string, weight:number): Promise<Item>{
+    public async updateItem (itemId:number,name:string, weight:number , color:string): Promise<Item>{
         const item = await this.ItemConn.update({
-            name,weight
+            name,weight,color
         },
         {where:{id:itemId}})
         return this.ItemConn.findByPk(itemId);

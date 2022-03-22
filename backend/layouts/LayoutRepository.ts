@@ -29,8 +29,6 @@ export class LayoutRepository{
                 userId:userId
             }
         })
-        // console.log(layouts)
-        // console.log(layouts[0].id)
         return layouts
     }
 
