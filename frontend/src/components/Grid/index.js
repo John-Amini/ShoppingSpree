@@ -85,7 +85,7 @@ const Grid = (props) =>{
         return currPointer
     }
     function mouseEnter(row,col,e,type){
-        if (isMouseDown && currPointer!== start && currPointer!== end){
+        if (isMouseDown && currPointer === "wall"){
         let newGrid = handleChange(row,col,grid)
 
         // console.log("Adding css class to" ,row,col)
@@ -105,7 +105,7 @@ const Grid = (props) =>{
     function handleChange(row,col,grid){
         let newGrid = grid;
         if(newGrid[row][col].type === 'none' || newGrid[row][col].type !== currPointer){
-            if(currPointer === 'start' || currPointer === 'end'){
+            if(currPointer !== "wall"){
                 resetStartInGrid();
             }
             newGrid[row][col].type = currPointer
@@ -131,7 +131,10 @@ const Grid = (props) =>{
     function resetStartInGrid(){
         for(let i = 0 ; i < rows ; i++ ){
             for (let j = 0 ; j < columns;j++){
-                if(grid[i][j].type === currPointer ) grid[i][j].type = "none"
+                if(grid[i][j].type === currPointer ) {
+                    grid[i][j].type = "none"
+                    grid[i][j].color = ""
+                }
             }
         }
     }
