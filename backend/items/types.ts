@@ -3,6 +3,7 @@ export type Item = {
     name:string,
     weight:number,
     layoutId:number,
+    color:string
     createdAt:Date,
     updatedAt:Date
 }
