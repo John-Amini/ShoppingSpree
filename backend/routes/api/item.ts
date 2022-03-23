@@ -29,11 +29,16 @@ router.post("/:layoutId",requireAuth,asyncHandler(async (req,res) => {
 }))
 
 router.get("/:layoutId",requireAuth,asyncHandler(async(req,res)=>{
+    try{
     console.log("Get Items associated with layout")
     const {layoutId} = req.params
     const itemService  = getNewItemService()
     const items = await itemService.getItems(layoutId)
     return res.json(items)
+    } catch(e){
+        return(res.json({errors:e}))
+    }
+
 }))
 
 router.put("/:itemId",requireAuth,asyncHandler(async(req,res)=>{
