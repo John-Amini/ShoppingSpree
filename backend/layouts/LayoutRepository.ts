@@ -44,7 +44,6 @@ export class LayoutRepository{
              {layout:jsonStringLayout},
              {where: {id:id}}
              )
-             console.log(layout)
              return await db.Layout.findByPk(id)
     }
 // Object[][]
@@ -65,5 +64,21 @@ export class LayoutRepository{
         }
         return newGrid
 
+    }
+    public async checkIfNameExists (name:string, userId:number):Promise<Boolean>{
+        let exists = await this.LayoutConn.findAll({
+            where:{userId:userId,
+            name:name
+            }
+        })
+        if(exists.length === 0) return false;
+        return true;
+    }
+    public async checkIfLastOne(userId:number): Promise<Boolean> {
+        let exists = await this.LayoutConn.findAll({
+            where:{userId:userId}
+        })
+        if(exists.length === 1) return true
+        return false
     }
 }

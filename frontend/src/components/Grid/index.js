@@ -6,6 +6,7 @@ import CreateLayoutForm from "./CreateNewLayoutForm";
 import Item from "../Item";
 import "./grid.css"
 import SelectLayoutList from "./selectLayoutList";
+import { Modal2 } from "./CreateNewLayoutForm/context/Modal";
 // use  context provider to determine what ill be clicking?
 const Grid = (props) =>{
     let rows = 30
@@ -23,6 +24,8 @@ const Grid = (props) =>{
     let layoutList = useSelector(state => state.layouts.layoutList)
     let items = useSelector(state=>state.items)
     let [name,setName] = useState('')
+    const [errors,setErrors] = useState([])
+    const [showErrorModal,setShowErrorModal] = useState(false)
     useEffect( () => {
         if(currLayout)
         setName(currLayout.name)
@@ -139,28 +142,60 @@ const Grid = (props) =>{
         setName(e.target.value)
     }
     async function handleDelete(e){
-        await dispatch(deleteLayout(currLayout.id))
+        let errors = []
+       let response = await dispatch(deleteLayout(currLayout.id))
+        if(response.errors){
+            errors.push(response.errors)
+            setErrors(errors)
+            setShowErrorModal(true)
+        } else{
         await dispatch(LoadOneLayout(layoutList[0].id))
+        }
     }
+
+    async function removeFromGrid(itemId){
+        let newGrid = JSON.parse(JSON.stringify(grid))
+        for(let i = 0 ; i < rows ; i++){
+            for(let j = 0 ; j < columns ; j++){
+                if(newGrid[i][j].type === String(itemId)){
+                delete newGrid[i][j].color
+                newGrid[i][j].type = "none"
+                }
+            }
+        }
+        setGrid(newGrid);
+        await dispatch(saveCurrentLayout(newGrid,currLayout.id))
+    }
+    async function editOnGrid(itemId,changedColor){
+        for(let i = 0 ; i < rows ; i++){
+            for(let j = 0 ; j < columns ; j++){
+                if(grid[i][j].type === String(itemId)){
+                grid[i][j].color = changedColor
+                }
+            }
+        }
+        await dispatch(saveCurrentLayout(grid,currLayout.id))
+    }
+
     return <div>
+        {showErrorModal && <Modal2 title={`Errors`}
+        onClose={ () => setShowErrorModal(false) }
+        show={showErrorModal}
+        >
+            {errors}
+            </Modal2>}
         <SelectLayoutList></SelectLayoutList>
         <button onClick={ async (e)=>{
             handleSaveLayout(e)
         }}> Save Layout </button>
 
-        {/* {currLayout &&
-        <span contenteditable="true"
-        onChange={(e) => {
-            handleNameChange(e)
-        }}>
-            {name} </span>} */}
         {currLayout && currLayout.name}
-        <button>Edit name</button>
+        {/* <button>Edit name</button> */}
         <button onClick={handleOnClear}>Clear Layout</button>
         <button onClick={(e) => handleDelete(e)}>Delete Layout</button>
         <button onClick={toggleCreateWatchlistForm}>Create New</button>
         {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
-        <Item></Item>
+        <Item removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></Item>
     <div className="grid">
     {grid.map((currRow,currRowIndex) => {
         // return <Point x={1}></Point>

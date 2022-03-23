@@ -62,6 +62,7 @@ function reducer(state = initialState, action) {
       return newState;
     case REMOVE_USER:
       newState = Object.assign({}, state, { user: null });
+      newState.layouts = null
       return newState;
     default:
       return state;

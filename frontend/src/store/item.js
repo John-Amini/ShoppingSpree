@@ -38,6 +38,9 @@ export const createItem = (name,layoutId,weight,color) => async dispatch => {
 
     if(response.ok){
         let data = await response.json();
+        if(data.errors){
+            return data
+        }
         await dispatch(createItemType(data))
         return data
     }

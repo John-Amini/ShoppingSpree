@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import ItemList from "../ItemList"
 import CreateItemForm from "./CreateItemForm"
 
-const Item = () => {
+const Item = ({removeFromGrid ,editOnGrid}) => {
     const sessionUser = useSelector(state => state.session.user)
     // need to load items for current layout
     // let items = useSelector(state => state.)
@@ -14,7 +14,7 @@ const Item = () => {
     return (
     <div className="itemsFullContainer">
         <button onClick={toggleShowItemCreateModal}>Create New Item</button>
-        <ItemList></ItemList>
+        <ItemList removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></ItemList>
         {showItemCreateModal && <CreateItemForm showModal={showItemCreateModal}
         setShowModal={setShowItemCreateModal}
         ></CreateItemForm>}

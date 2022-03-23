@@ -10,6 +10,9 @@ import Grid from './components/Grid';
 import SelectType from './components/SelectType';
 import { loadLayouts } from './store/layout';
 import LoginFormPage from './components/LoginFormPage';
+import { BrowserRouter } from 'react-router-dom';
+import Splash from './components/Splash';
+import { Redirect } from 'react-router-dom';
 function App() {
 
   const dispatch = useDispatch();
@@ -18,31 +21,48 @@ function App() {
   // const [showModal, setShowModal] = useState(false);s
   const [currPointer,setCurrPointer] = useState(null)
   useEffect(async () => {
-    if(sessionUser)
-      await dispatch(loadLayouts())
+
     await dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-
+    // if(sessionUser)
+    //   await dispatch(loadLayouts())
   }, [dispatch]);
-  useEffect(async () => {
-    await dispatch(loadLayouts())
+  // useEffect(async () => {
+  //   await dispatch(loadLayouts())
 
-  },[])
+  // },[])
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+
       {isLoaded && (
+        <BrowserRouter>
+      <Navigation isLoaded={isLoaded} />
+
         <Switch>
-          <Route path="/login" >
+        <Route exact path='/splash'>
+            <Splash user={sessionUser} />
+          </Route>
+          <Route exact path="/login" >
             <LoginFormPage />
           </Route>
           <Route path='/signup'>
             <SignupFormPage />
           </Route>
+          <Route exact path = '/'>
+        {sessionUser ? <>
+    <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
+      <Grid currPointer={currPointer}></Grid> </> : <Redirect to={'/splash'}></Redirect>}
+          </Route>
+          <Route>
+                <h1>404 Not Found</h1>
+              </Route>
         </Switch>
+        </BrowserRouter>
       )}
-    {sessionUser && <> <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
-      <Grid currPointer={currPointer}></Grid> </> }
+    {/* {sessionUser && <>
+    <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
+      <Grid currPointer={currPointer}></Grid> </> } */}
+
 
     </>
   );

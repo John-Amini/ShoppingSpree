@@ -21,6 +21,9 @@ router.post("/:layoutId",requireAuth,asyncHandler(async (req,res) => {
     const weight = req.body.weight
     const color = req.body.color
     const itemService  = getNewItemService()
+    if(await itemService.checkIfNameExists(name,layoutId)){
+        return res.json({errors:"Item with that name exists"})
+    }
     const item  = await itemService.createItem(layoutId,name,weight,color)
     return res.json(item)
 }))
@@ -40,6 +43,11 @@ router.put("/:itemId",requireAuth,asyncHandler(async(req,res)=>{
     const weight = parseInt(req.body.weight)
     const color = req.body.color
     const itemService  = getNewItemService()
+    let layoutId = await itemService.getLayoutIdOfItem(itemId);
+    console.log(layoutId)
+    if(await itemService.checkIfNameExists(name,layoutId)){
+        return res.json({errors:"Item with that name exists"})
+    }
     const item = await itemService.updateItem(itemId,name,weight, color)
     return res.json(item);
 }))

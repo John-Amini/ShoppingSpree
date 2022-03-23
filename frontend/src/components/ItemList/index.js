@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteItem, loadItems } from "../../store/item";
 import EditItemForm from "./EditItemForm";
 import './itemlist.css'
-const ItemList = () => {
+const ItemList = ({removeFromGrid,editOnGrid}) => {
     const layout = useSelector(state => state.layouts)
     const items = useSelector(state => state.items)
     const [showEditItemModal,setShowEditItemModal] = useState(false)
@@ -20,6 +20,7 @@ const ItemList = () => {
     const handleDelete = async (item) => {
         console.log(item)
         await dispatch(deleteItem(item.id))
+        await removeFromGrid(item.id);
     }
     return <div className="wrapper"><div className="itemListContainer">
     <div>
@@ -35,6 +36,7 @@ const ItemList = () => {
 
     <EditItemForm
         item={item}
+        editOnGrid={editOnGrid}
         ></EditItemForm>
     <button onClick={async (e) => handleDelete(item)}>Delete Item</button>
     </div>)}

@@ -3,11 +3,18 @@ import thunk from 'redux-thunk';
 import session from './session'
 import layoutReducer from './layout';
 import itemReducer from  './item'
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   session,
   layouts:layoutReducer,
   items:itemReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === "session/removeUser") {
+    return appReducer(undefined, action)
+  }
+return appReducer(state,action)
+}
 
 let enhancer;
 

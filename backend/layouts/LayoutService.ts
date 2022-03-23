@@ -26,4 +26,10 @@ export class LayoutService {
         const layout = await this.layoutRepo.deleteLayout(layoutId);
         return layout
     }
+    public async checkIfNameExists (name:string,userId:number): Promise<Boolean> {
+        return await this.layoutRepo.checkIfNameExists(name,userId)
+    }
+    public async checkIfLastOne(userId:number):Promise<Boolean> {
+        return await this.layoutRepo.checkIfLastOne(userId);
+    }
 }

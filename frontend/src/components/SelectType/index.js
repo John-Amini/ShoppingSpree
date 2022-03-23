@@ -1,8 +1,14 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadLayouts } from "../../store/layout";
 
 const SelectType = (props) => {
     let setCurrPointer = props.setCurrPointer;
+    let dispatch = useDispatch()
     const items = useSelector(state => state.items)
+    useEffect(async ()=> {
+        await dispatch(loadLayouts());
+    },[])
     function change(e){
         setCurrPointer(e.target.value)
     }

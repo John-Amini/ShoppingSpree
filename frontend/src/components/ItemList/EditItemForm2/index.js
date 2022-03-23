@@ -4,10 +4,7 @@ import { updateItem } from "../../../store/item";
 import { Modal2 } from "../../Item/context/Modal"
 import { SketchPicker,CompactPicker } from 'react-color';
 
-import './editItem.css'
-import EditItemForm2 from "../EditItemForm2";
-function EditItemForm({item,editOnGrid}) {
-    const [showModal, setShowModal] = useState(false);
+function EditItemForm2({item,editOnGrid,showModal,setShowModal}) {
     const [name,setName] = useState(item.name)
     const [weight,setWeight] = useState(item.weight)
     const [color,setColor] = useState(item.color)
@@ -15,9 +12,13 @@ function EditItemForm({item,editOnGrid}) {
 
     const dispatch = useDispatch()
     const handleSubmit = async (e) => {
+        let errors = []
+
         e.preventDefault();
         let updatedItem = await dispatch(updateItem(item.id,name,weight,color)) //dispatch
         if(updatedItem.errors){
+            errors.push(updatedItem.errors)
+            setValidationErrors(errors)
             //show errors
         } else{
             editOnGrid(item.id,color)
@@ -73,19 +74,44 @@ function EditItemForm({item,editOnGrid}) {
         setColor(color.hex)
     }
 let count = 0
-let editForm;
-if(showModal){
-    editForm = <EditItemForm2
-    item={item}
-    editOnGrid={editOnGrid}
-    showModal={showModal}
-    setShowModal ={setShowModal}>
-    </EditItemForm2>
-}
-return <div className="editItemContainer">
-      <button onClick={toggleModal}> Edit Item</button>
-    {showModal && editForm}
-</div>
+return <Modal2
+    title={`Edit Item for ${item.name}`}
+    onClose={ () => {
+    setShowModal(false)}}
+    show ={showModal}
+>
+    <form onSubmit={handleSubmit}>
+    <div>
+          {validationErrors.length > 0 && (
+            <div className='errorsContainer'>
+              {validationErrors.map(currError => {
+                return <p key={`error-${count++}`}>{currError}</p>;
+              })}
+            </div>
+          )}
+            </div>
+    <input
+    type="text"
+    placeholder="Name"
+    value={name}
+    onChange={updateName}
+    ></input>
+    <input
+    type="number"
+    placeholder="Weight"
+    value={weight}
+    onChange={updateWeight}
+    >
+    </input>
+    <CompactPicker
+            color={ color}
+            onChangeComplete={ handleColorPick}></CompactPicker>
+    <input
+    disabled = {true}
+    id='submitEditItem' type={'submit'}></input>
+
+    </form>
+</Modal2>
 }
 
-export default EditItemForm
+export default EditItemForm2

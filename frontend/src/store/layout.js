@@ -44,6 +44,10 @@ export const createNewLayout = (name) => async dispatch =>{
     if(response.ok){
         console.log("response is okay asddsasdads")
         let data = await response.json()
+        if(data.error){
+            console.log("error is bad")
+            return data
+        }
         console.log(data)
         await dispatch(createLayoutType(data))
         await dispatch(LoadOneLayout(data.id))
@@ -82,8 +86,12 @@ export const deleteLayout = (layoutId) => async dispatch => {
     if(response.ok){
         console.log("deleteLayout Okay")
         let data = await response.json();
-
+        if(data.errors){
+            console.log("it errored")
+            return data
+        }
         await dispatch(deleteLayoutType(data.id))
+        return data
     }
         else{
             console.log("deleteLayout Not Okay")

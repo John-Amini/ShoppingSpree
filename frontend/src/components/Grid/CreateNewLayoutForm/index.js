@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { createNewLayout } from "../../../store/layout";
 import { Modal2 } from './context/Modal'
@@ -9,6 +9,18 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
     const [validationErrors, setValidationErrors] = useState([]);
 
     const updateTitle = e => setTitle(e.target.value);
+    useEffect( () => {
+      let errors = []
+      const button = document.getElementById('submitCreateWatchlist');
+
+      if(title.length > 16 ) {
+        errors.push("Layout name can be max 16 characters")
+        button.disabled = true;
+      } else{
+        button.disabled = false
+      }
+      setValidationErrors(errors)
+    },[title])
     const handleSubmit = async (e) => {
       e.preventDefault();
       const errors = [];

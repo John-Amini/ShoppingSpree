@@ -30,6 +30,11 @@ router.post('/' ,requireAuth, asyncHandler(async(req,res) => {
     console.log(req.body.name)
     console.log("hitting post for layout for create new")
     const layoutService = new LayoutService(new LayoutRepository());
+    if(await layoutService.checkIfNameExists(req.body.name,req.user.dataValues.id)){
+        //exists error
+        return res.json({error:"Layout already exists"})
+
+    }
     const layout = await layoutService.makeDefault(req.user.dataValues.id,req.body.name)
     return res.json(layout)
 })
@@ -51,6 +56,9 @@ router.delete('/:id' , requireAuth,asyncHandler(async (req,res) => {
     console.log("hitting delete for layout")
     const {id} = req.params
     let layoutService = new LayoutService(new LayoutRepository())
+    if(await layoutService.checkIfLastOne(req.user.dataValues.id)){
+        return res.json({errors:"Cannot Delete last layout"})
+    }
     const layout = await layoutService.deleteLayout(id)
     return res.json(layout)
 }))

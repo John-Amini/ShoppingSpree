@@ -14,7 +14,8 @@ export class ItemRepository {
         const items = await this.ItemConn.findAll({
             where:{
                 layoutId
-            }
+            },
+            order: [['createdAt', 'ASC']],
         })
         return items;
     }
@@ -30,5 +31,19 @@ export class ItemRepository {
         const item = await this.ItemConn.findByPk(itemId)
         await item.destroy();
         return item;
+    }
+
+    public async checkIfNameExists(name:string,layoutId:number):Promise<Boolean>{
+        let exists = await this.ItemConn.findAll({
+            where:{layoutId,
+            name:name
+            }
+        })
+        if(exists.length === 0) return false;
+        return true;
+    }
+    public async getLayoutIdOfItem(itemId:number):Promise<number>{
+        let item = await this.ItemConn.findByPk(itemId);
+        return item.layoutId
     }
 }

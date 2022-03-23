@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   Layout.associate = function(models) {
       // associations can be defined here
     Layout.belongsTo(models.User,{foreignKey:'userId'})
-    Layout.hasMany(models.Item,{foreignKey:'layoutId'})
+    Layout.hasMany(models.Item,{foreignKey:'layoutId',onDelete: 'CASCADE',hooks:true})
   };
   return Layout;
 };
