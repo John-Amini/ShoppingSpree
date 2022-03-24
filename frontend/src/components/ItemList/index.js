@@ -32,13 +32,15 @@ const ItemList = ({removeFromGrid,editOnGrid}) => {
     <div>
         Wall
     </div>
-    {items.items && items.items.map( (item) => <div className="indiItem"> {item.name}
+    {items.items && items.items.map( (item) => <div onMouseOver={(e) => {e.target.style.setProperty("background-color",item.color)}}
+    onMouseLeave={(e) => {e.target.style.removeProperty("background-color")}}
+    className="indiItem"> {item.name}
 
     <EditItemForm
         item={item}
         editOnGrid={editOnGrid}
         ></EditItemForm>
-    <button onClick={async (e) => handleDelete(item)}>Delete Item</button>
+    <button className="deleteItem" onClick={async (e) => handleDelete(item)}>Delete Item</button>
     </div>)}
     </div>
     </div>

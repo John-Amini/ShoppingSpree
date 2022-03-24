@@ -32,4 +32,7 @@ export class LayoutService {
     public async checkIfLastOne(userId:number):Promise<Boolean> {
         return await this.layoutRepo.checkIfLastOne(userId);
     }
+    public async updataName (name:string,layoutId:number):Promise<Layout>{
+        return await this.layoutRepo.updateName (name,layoutId)
+    }
 }

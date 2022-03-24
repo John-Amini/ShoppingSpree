@@ -15,6 +15,9 @@
 .indiItem{
     display: flex;
 }
+.deleteItem:hover{
+    background-color: yellow !important;
+}
 /* .rightContainer {
     width: inherit;
     max-height: inherit;

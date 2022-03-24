@@ -7,6 +7,7 @@ import Item from "../Item";
 import "./grid.css"
 import SelectLayoutList from "./selectLayoutList";
 import { Modal2 } from "./CreateNewLayoutForm/context/Modal";
+import EditLayoutForm from "./EditLayoutForm";
 // use  context provider to determine what ill be clicking?
 const Grid = (props) =>{
     let rows = 30
@@ -26,13 +27,17 @@ const Grid = (props) =>{
     let [name,setName] = useState('')
     const [errors,setErrors] = useState([])
     const [showErrorModal,setShowErrorModal] = useState(false)
+    const [showEditModal,setShowEditModal] = useState(false)
     useEffect( () => {
         if(currLayout)
         setName(currLayout.name)
     },[currLayout])
-    const toggleCreateWatchlistForm = async e => {
+    const toggleShowModal = async e => {
         setShowModal(true);
       };
+    const toggleShowEditModal = async e => {
+          setShowEditModal(true)
+      }
     const copyCurrLayoutGridToGrid = () => {
         console.log("in Copy currLayout")
         if(!currLayout) return
@@ -141,9 +146,7 @@ const Grid = (props) =>{
     async function handleSaveLayout(e){
         await dispatch(saveCurrentLayout(grid,currLayout.id))
     }
-    function handleNameChange(e){
-        setName(e.target.value)
-    }
+
     async function handleDelete(e){
         let errors = []
        let response = await dispatch(deleteLayout(currLayout.id))
@@ -191,17 +194,19 @@ const Grid = (props) =>{
         <button onClick={ async (e)=>{
             handleSaveLayout(e)
         }}> Save Layout </button>
-
         {currLayout && currLayout.name}
-        {/* <button>Edit name</button> */}
+        <button onClick={ toggleShowEditModal }>Edit name</button>
         <button onClick={handleOnClear}>Clear Layout</button>
         <button onClick={(e) => handleDelete(e)}>Delete Layout</button>
-        <button onClick={toggleCreateWatchlistForm}>Create New</button>
+        <button onClick={toggleShowModal}>Create New</button>
+        {showEditModal && <EditLayoutForm showModal={showEditModal}
+        setShowModal={setShowEditModal}
+        currLayout = {currLayout}
+        ></EditLayoutForm>}
         {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
         <Item removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></Item>
     <div className="grid">
     {grid.map((currRow,currRowIndex) => {
-        // return <Point x={1}></Point>
         return <div className="column" key={`${currRowIndex} column`}>
         {currRow.map( (currColumn,currColumnIndex) => <Point
         key={`${currRowIndex} ${currColumnIndex} point`}

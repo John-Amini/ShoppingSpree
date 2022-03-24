@@ -27,7 +27,8 @@ export class LayoutRepository{
             attributes: this.listOfColumns,
             where:{
                 userId:userId
-            }
+            },
+            order: [['createdAt', 'ASC']],
         })
         return layouts
     }
@@ -81,4 +82,11 @@ export class LayoutRepository{
         if(exists.length === 1) return true
         return false
     }
+    public async updateName (name:string,layoutId:number):Promise<Layout>{
+        let updated = await this.LayoutConn.update({name:name},
+            {where:{id:layoutId}})
+
+            return await this.LayoutConn.findByPk(layoutId)
+        }
+
 }

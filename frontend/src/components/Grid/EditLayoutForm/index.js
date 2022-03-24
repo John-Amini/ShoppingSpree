@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { createNewLayout } from "../../../store/layout";
+import { createNewLayout, editNameOfLayout } from "../../../store/layout";
 import { Modal2 } from './context/Modal'
-const CreateLayoutForm = ({showModal,setShowModal}) => {
+const EditLayoutForm = ({showModal,setShowModal,currLayout}) => {
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(currLayout.name);
     const [validationErrors, setValidationErrors] = useState([]);
 
     const updateTitle = e => setTitle(e.target.value);
@@ -38,9 +38,10 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
 
         button.disabled = true;
         titleInput.disabled = true;
-        let createdWatchlist = await dispatch(createNewLayout(title))
-        if (createdWatchlist.error) {
-          errors.push(createdWatchlist.error);
+
+        let editedWatchlist = await dispatch(editNameOfLayout(title,currLayout.id,currLayout.name))
+        if (editedWatchlist.error) {
+          errors.push(editedWatchlist.error);
           button.disabled = false;
           titleInput.disabled = false;
           setValidationErrors(errors);
@@ -52,10 +53,10 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
     };
     let count = 0;
 return (
-    <div className='create-watchlist-container'>
+    <div className='edit-layout-container'>
     <Modal2
-    className={"modalWatchlist"}
-    title={`Create New layout`}
+    className={"modalEdit"}
+    title={`Edit name of ${currLayout.name}`}
           onClose={() => setShowModal(false)}
           show={showModal}>
       <div>
@@ -86,4 +87,4 @@ return (
 
 }
 
-export default CreateLayoutForm
+export default EditLayoutForm

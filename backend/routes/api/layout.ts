@@ -39,12 +39,26 @@ router.post('/' ,requireAuth, asyncHandler(async(req,res) => {
     return res.json(layout)
 })
 )
+router.put ('/name/:layoutId',requireAuth,asyncHandler(async(req,res) => {
+    console.log("hitting edit for name")
+    const {layoutId} = req.params;
+    const name = req.body.name
+    const originalName = req.body.originalName
+    if(name === originalName){
+        return res.json({error:"Please Provide a different name than the original"})
+    }
+    let layoutService = new LayoutService(new LayoutRepository());
+    if(await layoutService.checkIfNameExists(name,req.user.dataValues.id)){
+        //exists error
+        return res.json({error:"Layout already exists"})
 
-
+    }
+    const layout = await layoutService.updataName(name,layoutId)
+    return res.json(layout)
+}))
 router.put('/:id',requireAuth,asyncHandler(async (req,res) => {
     console.log(req.user.dataValues.id)
     console.log("hitting edit for layout for save")
-    console.log(req.body.grid)
     const {id} = req.params
     let layoutService = new LayoutService(new LayoutRepository())
     const layout = await layoutService.saveLayout(id,req.body.grid,)

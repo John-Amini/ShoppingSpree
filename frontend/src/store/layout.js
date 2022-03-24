@@ -6,10 +6,14 @@ const SAVE_LAYOUT = "/layout/saveLayout"
 const CREATE_LAYOUT = "/layout/createLayout"
 const UPDATE_LAYOUT = "layout/updateLayout"
 const DELETE_LAYOUT = "/layout/deleteLayout"
-
+const EDIT_NAME = "/layout/editName"
 const getLayoutMatrix = async (layout) => {
     return await JSON.parse(layout);
 }
+const editNameType = layout => ({
+    type:EDIT_NAME,
+    payload:layout
+})
 const deleteLayoutType = layoutId => ({
     type:DELETE_LAYOUT,
     payload:layoutId
@@ -56,7 +60,23 @@ export const createNewLayout = (name) => async dispatch =>{
 
     }
 }
-
+export const editNameOfLayout = (name,layoutId,originalName) => async dispatch => {
+    console.log("editNameOfLayout")
+    let response = await csrfFetch(`/api/layouts/name/${layoutId}`,{
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({name,originalName})
+    })
+        if(response.ok){
+            console.log("editNameOfLayout Response Okay")
+            let data = await response.json();
+            if(data.error) return data
+            await dispatch(editNameType(data))
+            return data
+        }
+}
 export const saveCurrentLayout = (grid,layoutId) => async dispatch => {
     console.log("hitting save current layout")
     console.log(grid)
@@ -142,7 +162,6 @@ const layoutReducer = (state = initialState,action) => {
         case SAVE_LAYOUT:
             console.log("IN SAVE REDUCERE")
             newState.layoutList = state.layoutList;
-            // layout = newState.layoutList.find( (currLayout,index) => currLayout.id == action.payload.id);
             newState.currLayout = action.payload
            return newState
         case LOAD_LAYOUTS:
@@ -164,6 +183,16 @@ const layoutReducer = (state = initialState,action) => {
                 return String(layout.id) == String(action.payload)
             })
             newState.layoutList.splice(index,1)
+            return newState
+        case EDIT_NAME:
+            console.log("in edit name Reducer")
+            newState.layoutList = state.layoutList
+            var index = newState.layoutList.findIndex(function (layout){
+                return String(layout.id) == String(action.payload.id)
+            })
+            newState.layoutList[index].name = action.payload.name
+            newState.currLayout = state.currLayout;
+            newState.currLayout.name = action.payload.name
             return newState
         default: return state
         }
