@@ -28,6 +28,8 @@ function SignupFormPage() {
       } catch (error) {
         let data = await error.json();
         if(data && data.errors)setErrors(data.errors)
+        setPassword("")
+        setConfirmPassword("")
         return
       }
         // let result = await dispatch(sessionActions.signup({ email, username, password }))
@@ -38,7 +40,9 @@ function SignupFormPage() {
 
         // return result
     }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
+    setPassword("")
+    setConfirmPassword("")
+    return setErrors(['Passwords do not match!']);
   };
 
   // return (
@@ -116,7 +120,7 @@ function SignupFormPage() {
       </div>
       <div className='signup-form-container'>
         <form className='sign-up-form' onSubmit={handleSubmit}>
-          <div>
+          <div className="errorContainer">
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
             ))}

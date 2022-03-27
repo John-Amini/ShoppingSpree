@@ -25,6 +25,8 @@ function LoginFormPage() {
       await dispatch(loadLayouts());
     } catch (error) {
       setErrors(["Invalid Credentials"])
+      setPassword("")
+
     }
 
     // return dispatch(sessionActions.login({ credential, password }))
@@ -42,6 +44,7 @@ function LoginFormPage() {
       await dispatch(loadLayouts());
     } catch (error) {
       setErrors(["Invalid Credentials"])
+      setPassword("")
     }
 
       // if(data && data.errors)setErrors(data.errors)
@@ -119,7 +122,7 @@ function LoginFormPage() {
       <div className='login-form-container'>
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Log in to Traveling Shopper</h2>
-          <div>
+          <div className="errorContainer">
             {errors.map((error, ind) => (
               <div key={ind}>{error}</div>
             ))}

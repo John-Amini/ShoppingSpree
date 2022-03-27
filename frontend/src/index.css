@@ -106,8 +106,9 @@ button {
     background-color: turquoise;
 }
 
-.errors{
+.errorContainer{
     color: red;
+    margin-bottom: 5px;
 }
 
 .modal {
