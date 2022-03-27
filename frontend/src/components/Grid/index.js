@@ -15,7 +15,7 @@ const Grid = (props) =>{
     let columns = 62
     const start = "start"
     const end = "end"
-    console.log("rerender grid")
+    // console.log("rerender grid")
     let dispatch = useDispatch()
     const [grid,setGrid] = useState([]);
     const [isMouseDown,setIsMouseDown] = useState(false)
@@ -44,9 +44,9 @@ const Grid = (props) =>{
           setShowEditModal(true)
       }
     const copyCurrLayoutGridToGrid = () => {
-        console.log("in Copy currLayout")
+        // console.log("in Copy currLayout")
         if(!currLayout) return
-        console.log("copying curr layout")
+        // console.log("copying curr layout")
         let newGrid = []
         for(let i = 0 ; i < rows ; i++){
             let currRow = [];

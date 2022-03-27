@@ -25,8 +25,8 @@ const loadItemsType = items => ({
 })
 
 export const createItem = (name,layoutId,weight,color) => async dispatch => {
-    console.log("createItem")
-    console.log(color)
+    // console.log("createItem")
+    // console.log(color)
 
     let response = await csrfFetch(`/api/items/${layoutId}`,{
         method:'POST',
@@ -45,22 +45,22 @@ export const createItem = (name,layoutId,weight,color) => async dispatch => {
         return data
     }
     else{
-        console.log("createItem not Okay")
+        // console.log("createItem not Okay")
     }
 }
 export const loadItems = (layoutId) => async dispatch => {
-    console.log("loadItems")
+    // console.log("loadItems")
     let response = await csrfFetch(`/api/items/${layoutId}`)
     if(response.ok){
-        console.log("loadItems okay")
+        // console.log("loadItems okay")
         let data = await response.json()
         await dispatch(loadItemsType(data))
     } else {
-        console.log("loadItems bad")
+        // console.log("loadItems bad")
     }
 }
 export const updateItem = (itemId,name,weight,color) => async dispatch => {
-    console.log("updateItem")
+    // console.log("updateItem")
     let response = await csrfFetch(`/api/items/${itemId}`,{
         method:"PUT",
         headers:{
@@ -69,30 +69,30 @@ export const updateItem = (itemId,name,weight,color) => async dispatch => {
         body:JSON.stringify({name,weight,color})
     })
     if(response.ok){
-        console.log("updateItem okay")
+        // console.log("updateItem okay")
         let data = await response.json()
         await dispatch(editItemType(data));
-        console.log(data);
+        // console.log(data);
         return data;
     } else{
-        console.log("updateItem not okay")
+        // console.log("updateItem not okay")
 
     }
 }
 
 export const deleteItem = (itemId) => async dispatch => {
-    console.log("deleteItem")
+    // console.log("deleteItem")
     let response = await csrfFetch(`/api/items/${itemId}`,{
         method:"DELETE",
     })
     if(response.ok){
-        console.log("deleteItem okay")
+        // console.log("deleteItem okay")
         let data = await response.json();
-        console.log(data)
+        // console.log(data)
         await dispatch(deleteItemType(data))
         return data
     } else{
-        console.log("deleteItem not okay")
+        // console.log("deleteItem not okay")
     }
 }
 
@@ -117,22 +117,23 @@ const itemReducer = (state = initialState,action) => {
             }
             return newState;
         case DELETE_ITEM:
-            console.log("in delete Reducers")
+            // console.log("in delete Reducers")
             newState.items = state.items
-            console.log("before for")
-            console.log(newState)
+            // console.log("before for")
+            // console.log(newState)
             for(let i = 0 ; i < newState.items.length;i++){
-                console.log("in for")
-                console.log(action.payload)
-                console.log(action.payload.id)
+                // console.log("in for")
+                // console.log(action.payload)
+                // console.log(action.payload.id)
                 if(newState.items[i].id === action.payload.id)
-                {   console.log("in if")
+                {
+                    // console.log("in if")
                     newState.items.splice(i,1)
                     break;
                 }
             }
-            console.log("before return ")
-            console.log(newState)
+            // console.log("before return ")
+            // console.log(newState)
             return newState
         default:return state
     }

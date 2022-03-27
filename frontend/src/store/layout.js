@@ -37,7 +37,7 @@ const saveLayoutType = layout => ( {
     payload:layout
 })
 export const createNewLayout = (name) => async dispatch =>{
-    console.log("are we in create new")
+    // console.log("are we in create new")
     let response = await csrfFetch("/api/layouts/",{
         method:'POST',
         headers:{
@@ -46,13 +46,13 @@ export const createNewLayout = (name) => async dispatch =>{
         body:JSON.stringify({name})
     })
     if(response.ok){
-        console.log("response is okay asddsasdads")
+        // console.log("response is okay asddsasdads")
         let data = await response.json()
         if(data.error){
-            console.log("error is bad")
+            // console.log("error is bad")
             return data
         }
-        console.log(data)
+        // console.log(data)
         await dispatch(createLayoutType(data))
         await dispatch(LoadOneLayout(data.id))
         return {}
@@ -61,7 +61,7 @@ export const createNewLayout = (name) => async dispatch =>{
     }
 }
 export const editNameOfLayout = (name,layoutId,originalName) => async dispatch => {
-    console.log("editNameOfLayout")
+    // console.log("editNameOfLayout")
     let response = await csrfFetch(`/api/layouts/name/${layoutId}`,{
         method:"PUT",
         headers:{
@@ -70,7 +70,7 @@ export const editNameOfLayout = (name,layoutId,originalName) => async dispatch =
         body:JSON.stringify({name,originalName})
     })
         if(response.ok){
-            console.log("editNameOfLayout Response Okay")
+            // console.log("editNameOfLayout Response Okay")
             let data = await response.json();
             if(data.error) return data
             await dispatch(editNameType(data))
@@ -78,8 +78,8 @@ export const editNameOfLayout = (name,layoutId,originalName) => async dispatch =
         }
 }
 export const saveCurrentLayout = (grid,layoutId) => async dispatch => {
-    console.log("hitting save current layout")
-    console.log(grid)
+    // console.log("hitting save current layout")
+    // console.log(grid)
     let response = await csrfFetch(`/api/layouts/${layoutId}`,{
         method:"PUT",
         headers:{
@@ -88,55 +88,55 @@ export const saveCurrentLayout = (grid,layoutId) => async dispatch => {
         body:JSON.stringify({grid})
     })
     if(response.ok){
-        console.log("okay response from save")
+        // console.log("okay response from save")
         let data = await response.json()
         let layoutMatrix = await JSON.parse(data.layout)
         data.layout = layoutMatrix;
         await dispatch(saveLayoutType(data));
     } else {
-        console.log("bad return from save")
+        // console.log("bad return from save")
     }
 }
 
 export const deleteLayout = (layoutId) => async dispatch => {
-    console.log("hitting deleteLayout")
+    // console.log("hitting deleteLayout")
     let response = await csrfFetch(`/api/layouts/${layoutId}`,{
         method:"DELETE",
     })
     if(response.ok){
-        console.log("deleteLayout Okay")
+        // console.log("deleteLayout Okay")
         let data = await response.json();
         if(data.errors){
-            console.log("it errored")
+            // console.log("it errored")
             return data
         }
         await dispatch(deleteLayoutType(data.id))
         return data
     }
         else{
-            console.log("deleteLayout Not Okay")
+            // console.log("deleteLayout Not Okay")
         }
 }
 export const LoadOneLayout = (layoutId) => async dispatch => {
-    console.log("hitting load one")
+    // console.log("hitting load one")
     let response = await fetch(`/api/layouts/${layoutId}`)
     if(response.ok) {
-        console.log("htting good response on return for load 1")
+        // console.log("htting good response on return for load 1")
         let data = await response.json()
         // console.log(data)
         // console.log(data.id)
         // console.log(data.layout)
         let layoutMatrix = await JSON.parse(data.layout);
         data.layout = layoutMatrix;
-        console.log(data)
+        // console.log(data)
         await dispatch(loadOneLayoutType(data))
     } else{
-        console.log("hitting bad response on load one")
+        // console.log("hitting bad response on load one")
     }
 }
 
 export const loadLayouts = () => async dispatch => {
-    console.log("hitting load layouts for list")
+    // console.log("hitting load layouts for list")
     let response = await fetch('/api/layouts/')
     if(response.ok){
         let data = await response.json()
@@ -162,7 +162,7 @@ function reviver(key, value) {
 
 
 export const getOptimalPath = (grid) => async dispatch => {
-    console.log("getOptimalPath")
+    // console.log("getOptimalPath")
     let response = await csrfFetch('/api/layouts/optimize',{
         method:'POST',
         headers:{
@@ -185,16 +185,16 @@ const layoutReducer = (state = initialState,action) => {
     let layout;
     switch (action.type){
         case SAVE_LAYOUT:
-            console.log("IN SAVE REDUCERE")
+            // console.log("IN SAVE REDUCERE")
             newState.layoutList = state.layoutList;
             newState.currLayout = action.payload
            return newState
         case LOAD_LAYOUTS:
-            console.log("hitting load layouts Reducer")
+            // console.log("hitting load layouts Reducer")
             newState.layoutList = action.payload
             return newState
         case LOAD_ONE_LAYOUT:
-            console.log("hitting load one layour reducer")
+            // console.log("hitting load one layour reducer")
             newState.layoutList = state.layoutList;
             newState.currLayout = action.payload;
             return newState
@@ -210,7 +210,7 @@ const layoutReducer = (state = initialState,action) => {
             newState.layoutList.splice(index,1)
             return newState
         case EDIT_NAME:
-            console.log("in edit name Reducer")
+            // console.log("in edit name Reducer")
             newState.layoutList = state.layoutList
             var index = newState.layoutList.findIndex(function (layout){
                 return String(layout.id) == String(action.payload.id)

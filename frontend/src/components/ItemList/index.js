@@ -9,8 +9,8 @@ const ItemList = ({removeFromGrid,editOnGrid}) => {
     const [showEditItemModal,setShowEditItemModal] = useState(false)
     const dispatch = useDispatch();
     useEffect( async () => {
-        console.log("in use effect to load items")
-        console.log(layout)
+        // console.log("in use effect to load items")
+        // console.log(layout)
         if(layout?.currLayout)
             await dispatch(loadItems(layout?.currLayout.id))
     },[layout?.currLayout])
@@ -18,7 +18,7 @@ const ItemList = ({removeFromGrid,editOnGrid}) => {
     let editForm;
     const toggleModal = e => setShowEditItemModal(true)
     const handleDelete = async (item) => {
-        console.log(item)
+        // console.log(item)
         await dispatch(deleteItem(item.id))
         await removeFromGrid(item.id);
     }
