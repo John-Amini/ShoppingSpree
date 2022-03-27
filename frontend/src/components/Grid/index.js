@@ -62,9 +62,10 @@ const Grid = (props) =>{
         }
         setGrid(newGrid)
     }
-    const handleOnClear = () => {
+    const handleOnClear = async () => {
         let newGrid = clearGrid()
-        setGrid(newGrid)
+        setGrid(newGrid);
+        await dispatch(saveCurrentLayout(newGrid,currLayout.id))
     }
     function clearGrid(){
         let newGrid = []
@@ -218,7 +219,7 @@ const Grid = (props) =>{
                     pointOnGrid.solution = true;
                 }
                 setGrid(newGrid)
-            },10*i)
+            },60*i)
             //was 60
             //prev === color at the start
              // => each none doesnt matter set that to current color
@@ -298,7 +299,7 @@ const Grid = (props) =>{
         <button className={"clear"}onClick={handleOnClear}>Clear Layout</button>
         <div className="optimizeResetContainer">
         { !originalGrid && <button className="optimize" onClick={(e) => handleOptimize(e)}>Optimize!</button> }
-        {originalGrid && <button className = {"pointerYes"}onClick={(e) => {handleReset()}}>RESET GRID</button>}
+        {originalGrid && <button className = {"pointerYes"}onClick={(e) => {handleReset()}}>Reset Grid </button>}
 
         </div>
         </div>

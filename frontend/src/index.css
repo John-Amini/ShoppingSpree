@@ -113,3 +113,12 @@ button {
 .modal {
     z-index: 4;
 }
+
+.pointerYes{
+    width: 104px ;
+
+}
+.pointerYes:hover{
+    background-color: #008000 !important;
+    color: white;
+}
