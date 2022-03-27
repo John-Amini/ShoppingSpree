@@ -16,11 +16,14 @@ router.post("/:layoutId",requireAuth,asyncHandler(async (req,res) => {
     console.log("in create Item")
     // const userId = req.user.dataValues.id
     const {layoutId} = req.params
-    console.log(layoutId)
+
     const name = req.body.name
     const weight = req.body.weight
     const color = req.body.color
     const itemService  = getNewItemService()
+    if(await itemService.checkIfEight(layoutId)){
+        return res.json({errors:"8 Items please delete one to add a new one "})
+    }
     if(await itemService.checkIfNameExists(name,layoutId)){
         return res.json({errors:"Item with that name exists"})
     }

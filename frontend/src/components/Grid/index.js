@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { deleteLayout, loadLayouts, LoadOneLayout, saveCurrentLayout } from "../../store/layout";
+import { deleteLayout, getOptimalPath, loadLayouts, LoadOneLayout, saveCurrentLayout } from "../../store/layout";
+import SelectType from "../SelectType";
 import Point from "../Point";
 import CreateLayoutForm from "./CreateNewLayoutForm";
 import Item from "../Item";
@@ -14,12 +15,15 @@ const Grid = (props) =>{
     let columns = 62
     const start = "start"
     const end = "end"
+    console.log("rerender grid")
     let dispatch = useDispatch()
     const [grid,setGrid] = useState([]);
     const [isMouseDown,setIsMouseDown] = useState(false)
     const [random,setRandom] = useState(true)
     const [showModal, setShowModal] = useState(false);
-    let currPointer = props.currPointer;
+    const [currPointer,setCurrPointer] = useState('none')
+    // let currPointer = props.currPointer;
+    // let setCurrPointer = props.setCurrPointer;
     const sessionUser = useSelector(state => state.session.user);
     let currLayout =useSelector (state => state.layouts.currLayout)
     let layoutList = useSelector(state => state.layouts.layoutList)
@@ -28,6 +32,7 @@ const Grid = (props) =>{
     const [errors,setErrors] = useState([])
     const [showErrorModal,setShowErrorModal] = useState(false)
     const [showEditModal,setShowEditModal] = useState(false)
+    const [originalGrid,setOriginalGrid] = useState(null)
     useEffect( () => {
         if(currLayout)
         setName(currLayout.name)
@@ -90,12 +95,9 @@ const Grid = (props) =>{
         return currPointer
     }
     function mouseEnter(row,col,e,type){
-        if (isMouseDown && currPointer === "wall"){
+        if (isMouseDown && (currPointer === "wall" || currPointer === 'none')){
         let newGrid = handleChange(row,col,grid)
 
-        // console.log("Adding css class to" ,row,col)
-        // e.target.classList.remove("none","wall","start","end")
-        // e.target.classList.add(type)
         setRandom(!random)
         setGrid(newGrid)
 
@@ -110,7 +112,7 @@ const Grid = (props) =>{
     function handleChange(row,col,grid){
         let newGrid = grid;
         if(newGrid[row][col].type === 'none' || newGrid[row][col].type !== currPointer){
-            if(currPointer !== "wall"){
+            if(currPointer !== "wall" && currPointer !== 'none'){
                 resetStartInGrid();
             }
             newGrid[row][col].type = currPointer
@@ -156,6 +158,9 @@ const Grid = (props) =>{
             setShowErrorModal(true)
         } else{
         await dispatch(LoadOneLayout(layoutList[0].id))
+        setCurrPointer("none")
+        let select = document.getElementById("itemSelect")
+        select.value = "none"
         }
     }
 
@@ -182,7 +187,85 @@ const Grid = (props) =>{
         }
         await dispatch(saveCurrentLayout(grid,currLayout.id))
     }
+    async function handleOptimize(e){
+        await dispatch(saveCurrentLayout(grid,currLayout.id))
+        let gridBefore = JSON.parse(JSON.stringify(grid))
+        document.body.className = "testClass"
+      let result = await dispatch(getOptimalPath(grid))
+      if(result.path){
+        //success
 
+        let prevColor = "#FFA500"
+        let color = "#FFA500"
+        for(let i = 0 ; i < result.path.length;i++){
+            // console.log(point)
+            let point  = result.path[i]
+            let row = point.x;
+            let column = point.y
+
+            setTimeout(() => {
+                let newGrid = grid.slice()
+                let pointOnGrid = newGrid[row][column];
+                if(pointOnGrid.type === "end"){
+                //   document.body.className = "testClass"
+                  setOriginalGrid(gridBefore)
+                }
+                if(pointOnGrid.color && pointOnGrid.solution !== true || pointOnGrid.type === 'end'){
+                    color = pointOnGrid.color
+                }
+                pointOnGrid.color = color;
+                if(pointOnGrid.type === 'none'){
+                    pointOnGrid.solution = true;
+                }
+                setGrid(newGrid)
+            },10*i)
+            //was 60
+            //prev === color at the start
+             // => each none doesnt matter set that to current color
+             // => go to item or end color is now something different change prev color to color
+        //     if(newGrid[row][column].type === 'none'){
+        //         setTimeout(() => {
+        //             //prev color and color arent changed before going into this for some reason
+        //             let testColor = color
+        //             let newGrid = grid.slice()
+        //             newGrid[row][column].solution = true
+        //             newGrid[row][column].color = testColor
+        //             setGrid(newGrid)
+        //     },100 * i)
+
+        // }
+        //  else if(newGrid[row][column].type !== 'start' && newGrid[row][column].type !== 'end'){
+        //     console.log("in else")
+
+        //     console.log(newGrid[row][column].type)
+        //     // let temp = color;
+        //     color = newGrid[row][column].color
+        //     // prevColor = temp
+        //     // console.log(`prev color is `,prevColor)
+        //     console.log("color is",color)
+        // }
+
+
+
+
+    }
+
+      }
+      else if(result.error){
+        setOriginalGrid(null)
+        document.body.classList.remove("testClass")
+        setErrors(result.error)
+        setShowErrorModal(true)
+
+      }
+    }
+
+
+    function handleReset (){
+        document.body.classList.remove("testClass")
+        setGrid(originalGrid);
+        setOriginalGrid(null)
+    }
     return <div>
         {showErrorModal && <Modal2 title={`Errors`}
         onClose={ () => setShowErrorModal(false) }
@@ -190,15 +273,39 @@ const Grid = (props) =>{
         >
             {errors}
             </Modal2>}
-        <SelectLayoutList></SelectLayoutList>
-        <button onClick={ async (e)=>{
+            <div className="selectDivs">
+
+            <div className="containerForSelect">
+                <label className="label">Select Layout:</label>
+        <SelectLayoutList setCurrPointer={setCurrPointer}></SelectLayoutList>
+        <button className={"newLayoutButton create"}onClick={toggleShowModal}>New Layout</button>
+
+        </div>
+            <div className="selectTypeWrapper containerForSelect"> <label className="label" >Select Option:</label>
+            <SelectType setCurrPointer = {setCurrPointer} currPointer={currPointer}></SelectType>
+            </div>
+
+            </div>
+            <div className="layoutOptionsContainer">
+
+        <button className={"saveSubmit"}onClick={ async (e)=>{
             handleSaveLayout(e)
         }}> Save Layout </button>
+        <button className="delete" onClick={(e) => handleDelete(e)}>Delete Layout</button>
+
+
+        <button className={"edit"}onClick={ toggleShowEditModal }>Edit Name</button>
+        <button className={"clear"}onClick={handleOnClear}>Clear Layout</button>
+        <div className="optimizeResetContainer">
+        { !originalGrid && <button className="optimize" onClick={(e) => handleOptimize(e)}>Optimize!</button> }
+        {originalGrid && <button className = {"pointerYes"}onClick={(e) => {handleReset()}}>RESET GRID</button>}
+
+        </div>
+        </div>
+        <div className="layoutName">
         {currLayout && currLayout.name}
-        <button onClick={ toggleShowEditModal }>Edit name</button>
-        <button onClick={handleOnClear}>Clear Layout</button>
-        <button onClick={(e) => handleDelete(e)}>Delete Layout</button>
-        <button onClick={toggleShowModal}>Create New</button>
+        </div>
+
         {showEditModal && <EditLayoutForm showModal={showEditModal}
         setShowModal={setShowEditModal}
         currLayout = {currLayout}

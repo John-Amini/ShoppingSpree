@@ -1,1 +1,114 @@
 /* TODO Add site wide styles */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 90vh;
+    max-width: 100vw;
+  }
+
+
+.testClass{
+    pointer-events: none;
+}
+.testClass button{
+    opacity: .2;
+}
+.testClass select{
+    opacity: .2;
+}
+.pointerYes{
+    pointer-events: all !important;
+    background-color: gray !important;
+    opacity: 1 !important;
+}
+ul{
+list-style-type: none;
+}
+.profile-dropdown{
+    background-color: darkgray;
+    border-radius: 2px;
+    border: 1px black solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right:10px;
+    margin-top:20px;
+    margin-right: 90px;
+    font-weight: bold;
+    position: absolute;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.profile-dropdown > li {
+    margin-top: 10px;
+}
+select{
+    width: 141px;
+    height: 20px;
+    justify-content: center;
+    text-align-last:center;
+
+}
+
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding-bottom: 3px;
+    cursor: pointer;
+    background-color: lavender;
+    transition-duration: .3s;
+    background-color: #343A40;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 16px;
+
+}
+.delete{
+    transition-duration: .3s;
+}
+
+.delete:hover{
+    background-color: #B33A3A;
+}
+.clear:hover{
+    background-color: orangered;
+    color: white;
+}
+.navbar{
+    border-bottom: 1px solid black;
+    background-color: #F8F0E3;
+}
+
+
+.create:hover{
+    background-color: teal;
+    color: white;
+}
+
+.saveSubmit:hover{
+    background-color: #008000;
+    color: white;
+}
+
+.optimize{
+
+}
+.optimize:hover{
+    color: white;
+    background-color: aqua;
+}
+
+.edit:hover{
+    background-color: turquoise;
+}
+
+.errors{
+    color: red;
+}

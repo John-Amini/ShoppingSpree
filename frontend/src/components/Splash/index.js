@@ -1,15 +1,18 @@
 import { Link, Redirect } from 'react-router-dom';
 import './Splash.css';
-
+import logo from "../../images/favicon.jpg"
+import image from "../../images/splash.jpg"
 const Splash = ({ user }) => {
   if (user) return <Redirect to='/' />;
 
   return (
-    <div className='splash main'>
-      <nav>
-        <div className='navbar'>
-          <div className='logo'>
-            <Link to='/'>HOME</Link>
+    <div className='splash'>
+   <nav>
+        <div className='navbar splashSpecific'>
+          <div>
+          <Link className="logo" to='/'><img className='logo'
+          src={logo}></img></Link>
+
           </div>
           <div className='auth'>
             <Link className='btn login' to='/login'>
@@ -25,32 +28,22 @@ const Splash = ({ user }) => {
         <div className='header'>
           <div className='headerLeftContainer'>
             <div className='headerLeft'>
-              <h1>Shop Smart Not Hard</h1>
-              <p>
-                Optimize your shopping!
+              <h1 className='opaque'>Shop Smart Not Hard</h1>
+              <p className='opaque'>
+                Create the layout of your favorite stores! Plot the items that you want to buy and optimize your path to save time so you can get back to doing the things you love!
               </p>
-              <Link className='btn signup black' to='/signup'>
+              {/* <Link className='btn signup black' to='/signup'>
                 Sign Up
-              </Link>
+              </Link> */}
+
+
             </div>
           </div>
-          <div className='headerRightContainer'>
-            {/* <div className='headerRight'>
-              <video
-                autoPlay
-                muted
-                controlsList='nodownload nofullscreen noremoteplayback'
-                loop
-                playsInline
-                preload='auto'
-                className='headerVideo'
-              >
-                <source src='/static/splash_phone_vid.mp4' type='video/mp4' />
-              </video>
-              <img className='headerImage' src='/static/splash_phone_img.png' alt='' />
-            </div> */}
-          </div>
+
         </div>
+              <div className='splashImageDiv'>
+                <img className='headerImage' src={image} alt='' />
+                </div>
       </header>
     </div>
   );

@@ -83,7 +83,7 @@ if(showModal){
     </EditItemForm2>
 }
 return <div className="editItemContainer">
-      <button onClick={toggleModal}> Edit Item</button>
+      <button className="editItem edit" onClick={toggleModal}>Edit</button>
     {showModal && editForm}
 </div>
 }

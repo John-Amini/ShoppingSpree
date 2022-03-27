@@ -1,0 +1,22 @@
+.aboutContainer{
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #F8F0E3;
+    border-top: 1px black solid;
+    height: 58px;
+    display: inline-block;
+    vertical-align:top
+}
+
+.linkedin,
+.github{
+  font-size: 30px;
+  background-color: transparent;
+  padding-left: 20px;
+}
+
+.linkedin:hover,.github:hover{
+    color: green;
+}

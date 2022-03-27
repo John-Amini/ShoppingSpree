@@ -19,6 +19,7 @@ export const login = ({ credential, password }) => async dispatch => {
   });
   const data = await response.json();
   dispatch(setUser(data.user));
+  console.log(response)
   return response;
 };
 

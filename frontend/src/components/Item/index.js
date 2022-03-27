@@ -13,7 +13,9 @@ const Item = ({removeFromGrid ,editOnGrid}) => {
     }
     return (
     <div className="itemsFullContainer">
-        <button onClick={toggleShowItemCreateModal}>Create New Item</button>
+        <div className="createItemButtonWrapper">
+        <button className={"createItemButton create"}onClick={toggleShowItemCreateModal}>New Item</button>
+        </div>
         <ItemList removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></ItemList>
         {showItemCreateModal && <CreateItemForm showModal={showItemCreateModal}
         setShowModal={setShowItemCreateModal}

@@ -12,17 +12,17 @@ import { loadLayouts } from './store/layout';
 import LoginFormPage from './components/LoginFormPage';
 import { BrowserRouter } from 'react-router-dom';
 import Splash from './components/Splash';
-import { Redirect } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
+import Footer from './components/footer';
 function App() {
 
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user)
   const [isLoaded, setIsLoaded] = useState(false);
-  // const [showModal, setShowModal] = useState(false);s
-  const [currPointer,setCurrPointer] = useState(null)
+  // const [showModal, setShowModal] = useState(false);
+  const [currPointer,setCurrPointer] = useState("none")
   useEffect(async () => {
-
-    await dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    await dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true)).then(()=> dispatch(loadLayouts()));
     // if(sessionUser)
     //   await dispatch(loadLayouts())
   }, [dispatch]);
@@ -33,11 +33,10 @@ function App() {
 
   return (
     <>
+    {sessionUser && <Navigation isLoaded={isLoaded} />}
 
       {isLoaded && (
         <BrowserRouter>
-      <Navigation isLoaded={isLoaded} />
-
         <Switch>
         <Route exact path='/splash'>
             <Splash user={sessionUser} />
@@ -49,9 +48,9 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path = '/'>
-        {sessionUser ? <>
-    <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
-      <Grid currPointer={currPointer}></Grid> </> : <Redirect to={'/splash'}></Redirect>}
+        {sessionUser ? <div className='mainWrapper'>
+    {/* <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType> */}
+      <Grid currPointer={currPointer} setCurrPointer={setCurrPointer}></Grid> </div> : <Redirect to={'/splash'}></Redirect>}
           </Route>
           <Route>
                 <h1>404 Not Found</h1>
@@ -63,7 +62,7 @@ function App() {
     <SelectType setCurrPointer={setCurrPointer} currPointer={currPointer}></SelectType>
       <Grid currPointer={currPointer}></Grid> </> } */}
 
-
+      <Footer></Footer>
     </>
   );
 }

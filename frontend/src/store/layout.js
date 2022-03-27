@@ -151,6 +151,31 @@ export const loadLayouts = () => async dispatch => {
 }
 
 
+function reviver(key, value) {
+    if(typeof value === 'object' && value !== null) {
+      if (value.dataType === 'Map') {
+        return new Map(value.value);
+      }
+    }
+    return value;
+  }
+
+
+export const getOptimalPath = (grid) => async dispatch => {
+    console.log("getOptimalPath")
+    let response = await csrfFetch('/api/layouts/optimize',{
+        method:'POST',
+        headers:{
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({grid})
+    })
+    if(response.ok){
+        let data = await response.json()
+        return data
+    }
+}
+
 let initialState ={
     currLayout:null,
     layoutList:null

@@ -5,8 +5,55 @@ import { setTokenCookie , requireAuth } from "../../utils/auth"
 import { LayoutService } from "../../layouts/LayoutService"
 import { LayoutRepository } from "../../layouts/LayoutRepository"
 import { json } from "sequelize/types"
+import { GenerateGraph, GetAllPaths } from "../../utils/bfs"
+import { BruteForce } from "../../utils/BruteForce"
+import { createPath } from "../../utils/createPath"
+import { ItemService } from "../../items/ItemService"
+import { ItemRepository } from "../../items/ItemRepository"
 
 export const router = express.Router();
+
+function getErrorMessage(error: unknown) {
+    if (error instanceof Error) return error.message
+    return String(error)
+  }
+
+
+function replacer(key, value) {
+    if(value instanceof Map) {
+      return {
+        dataType: 'Map',
+        value: Array.from(value.entries()), // or with spread: value: [...value]
+      };
+    } else {
+      return value;
+    }
+  }
+
+
+router.post('/optimize',requireAuth,asyncHandler(async (req,res)=> {
+    console.log("Optimize")
+    try{
+    let graph = GenerateGraph(req.body.grid);
+    let getAllPaths = GetAllPaths(req.body.grid)
+    let solution = BruteForce(graph)
+    let testReplacer = JSON.stringify(graph,replacer)
+    // console.log(json)
+    // console.log(solution)
+    let path = createPath(getAllPaths,solution)
+    return res.json({solution,testReplacer,getAllPaths,path})
+    } catch(e){
+        let errorMessage = getErrorMessage(e);
+        // if(errorMessage.includes(":")){
+        //    let split = errorMessage.split(':');
+        //     let id = parseInt(split[1]);
+        //     const itemService = new ItemService(new ItemRepository())
+        //     const item = await itemService.getOneItem(id);
+        //     errorMessage = `${item.name} cannot reach all points`
+        // }
+        return res.json({error:errorMessage})
+    }
+}))
 
 router.get('/' ,requireAuth,asyncHandler(async (req,res) => {
     const userId = req.user.dataValues.id

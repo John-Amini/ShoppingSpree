@@ -22,27 +22,48 @@ const ItemList = ({removeFromGrid,editOnGrid}) => {
         await dispatch(deleteItem(item.id))
         await removeFromGrid(item.id);
     }
-    return <div className="wrapper"><div className="itemListContainer">
-    <div>
-    Start
-    </div>
-    <div>
-    End
-    </div>
-    <div>
-        Wall
-    </div>
-    {items.items && items.items.map( (item) => <div onMouseOver={(e) => {e.target.style.setProperty("background-color",item.color)}}
-    onMouseLeave={(e) => {e.target.style.removeProperty("background-color")}}
-    className="indiItem"> {item.name}
+    return <div className="itemListContainer">
 
+
+    <div className="indiItem">
+    <div className="colorDiv" style={{backgroundColor:"#FFA500"}}></div>
+    <div className="itemNameContainer">
+        Start
+
+        </div>
+    </div>
+    <div className="indiItem">
+    <div className="colorDiv" style={{backgroundColor:"green"}}></div>
+    <div className="itemNameContainer">
+        End
+        </div>
+
+    </div>
+    <div className="indiItem">
+        <div className="colorDiv" style={{backgroundColor:"blue"}}></div>
+        <div className="itemNameContainer">
+        Wall
+
+        </div>
+
+    </div>
+    {/* onMouseOver={(e) => {e.target.style.setProperty("background-color",item.color)}}
+    onMouseLeave={(e) => {e.target.style.removeProperty("background-color")}} */}
+
+    {items.items && items.items.map( (item) => <div
+
+    className="indiItem">
+        <div className="colorDiv" style = {{backgroundColor:item.color}}></div>
+
+        <div className="itemNameContainer">
+            {item.name}
+        </div>
     <EditItemForm
         item={item}
         editOnGrid={editOnGrid}
         ></EditItemForm>
-    <button className="deleteItem" onClick={async (e) => handleDelete(item)}>Delete Item</button>
+    <button className="deleteItem delete" onClick={async (e) => handleDelete(item)}>Delete</button>
     </div>)}
-    </div>
     </div>
 }
 

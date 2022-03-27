@@ -27,4 +27,10 @@ export class ItemService{
     public async getLayoutIdOfItem(itemId:number):Promise<number>{
         return await this.itemRepo.getLayoutIdOfItem(itemId)
     }
+    public async checkIfEight(layoutId:number):Promise<Boolean>{
+        return await this.itemRepo.checkIfEight(layoutId)
+    }
+    public async getOneItem (itemId:number):Promise<Item>{
+        return await this.itemRepo.getOneItem(itemId);
+    }
 }

@@ -46,4 +46,16 @@ export class ItemRepository {
         let item = await this.ItemConn.findByPk(itemId);
         return item.layoutId
     }
+    public async checkIfEight(layoutId):Promise<boolean>{
+        let items = await this.ItemConn.findAll({
+            where:{layoutId}
+        })
+        if(items.length >= 8) return true;
+        return false;
+    }
+
+    public async getOneItem(itemId:number):Promise<Item>{
+        let item = await this.ItemConn.findByPk(itemId);
+        return item;
+    }
 }

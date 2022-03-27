@@ -1,0 +1,131 @@
+.signup-page-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  #signup-img-wrapper{
+      display: inline-block;
+      overflow: hidden;
+      height: 812px;
+      width: 1000px;
+    }
+  #signup-form-img {
+    flex: 1 1 50%;
+    height: 100%;
+    width: 100%;
+    object-fit:cover;
+    overflow: hidden;
+    background-size: cover;
+    bottom: 0;
+  }
+
+  .signup-form-container {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+
+
+  /*                            */
+
+
+  .signup-form-container {
+    /* background-color: rgb(255, 164, 164); */
+    /* border: 2px rgb(255, 149, 149) solid; */
+    padding: 30px;
+    width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    display: flex;
+  }
+
+  .form-container {
+    margin-top: 50px;
+  }
+
+  .sub-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .sign-up-form input {
+    width: 220px;
+    height: 25px;
+  }
+
+  .sign-up-form label {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+  }
+  /*
+
+  .sign-up-form:hover {
+    box-shadow: 0 0 10px 0.1em rgb(149, 225, 255);
+  } */
+
+  .sign-up-button {
+    margin-top: 10px;
+    width: 100px;
+    height: 35  px;
+    font-size: 16px ;
+  }
+
+  .sign-up-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .sign-up-button:hover {
+    cursor: pointer;
+  }
+
+  .sign-up-form input:hover {
+    border: 2px solid green;
+    border-radius: 2px;
+  }
+
+  .sign-up-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+    display: inline;
+    font-family: helvetica;
+    padding: 4px 7px;
+    border: solid black 1px;
+    border-radius: 3px;
+    background-color: black;
+  }
+
+  .sign-up-button:hover{
+    background-color: white;
+    color: black;
+    box-shadow: 1px 1px .2em rgb(170, 170, 170);
+    cursor: pointer;
+  }
+
+  .page-link {
+      font-weight: bold;
+      text-decoration: underline;
+  }
+
+  .logo{
+      height: 60px
+  }
