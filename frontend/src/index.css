@@ -109,3 +109,7 @@ button {
 .errors{
     color: red;
 }
+
+.modal {
+    z-index: 4;
+}

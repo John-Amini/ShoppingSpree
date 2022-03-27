@@ -1,0 +1,51 @@
+.editItemForm{
+    display: flex;
+    flex-direction: column;
+    width: 402px;
+}
+.itemNameInput {
+    margin-bottom: 10px;
+    height: 30px;
+}
+.itemWeightInput{
+    height: 30px;
+    margin-bottom: 15px;
+}
+
+#submitEditItem:hover{
+    background-color: #008000;
+    color: white;
+}
+
+#submitEditItem{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding-bottom: 3px;
+    cursor: pointer;
+    background-color: lavender;
+    transition-duration: .3s;
+    background-color: #343A40;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 16px;
+    width: 80px;
+}
+
+.itemFormContainer .errorsContainer{
+    margin-bottom: 0px !important;
+}
+
+.itemFormContainer .modal-body{
+    padding: 0;
+}
+
+.itemFormContainer .button:hover{
+    background-color: orangered;
+}
+
+.pickerDiv{
+    display: flex;
+    justify-content: center;
+}

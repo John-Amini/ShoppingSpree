@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { createItem } from "../../../store/item"
 import { Modal2 } from "../context/Modal"
 import { SketchPicker,CompactPicker } from 'react-color';
+import "./createItem.css"
 const CreateItemForm = ({showModal,setShowModal}) => {
     function random_rgba() {
         var o = Math.round, r = Math.random, s = 255;
@@ -39,7 +40,10 @@ const CreateItemForm = ({showModal,setShowModal}) => {
             errors.push("Name is a maximum of 16 characters")
             errorFlag = true
         }
-        if(weight.length !== 0 && !/^[0-9]+$/.test(weight)){
+        if(weight.length === 0){
+            errors.push("Please provide a weight")
+            errorFlag = true
+        } else if(!/^[0-9]+$/.test(weight)){
             errors.push("Weight must only contain positive whole numbers")
             errorFlag = true
         }
@@ -47,10 +51,7 @@ const CreateItemForm = ({showModal,setShowModal}) => {
             errors.push("Weight cannot be 0")
             errorFlag = true
         }
-        else if(weight.length === 0){
-            errors.push("Please provide a weight")
-            errorFlag = true
-        }
+
         if(errorFlag){
             submit.disabled = true
         } else{
@@ -80,6 +81,7 @@ const CreateItemForm = ({showModal,setShowModal}) => {
     }
     let count = 0
     return (
+        <div className="itemFormContainer">
         <Modal2
         title={"Add new Item"}
         onClose = {()=> setShowModal(false)}
@@ -97,6 +99,7 @@ const CreateItemForm = ({showModal,setShowModal}) => {
           )}
             </div>
             <input
+            className="itemNameInput"
             type="textarea"
             id='nameInput'
             placeholder="Name"
@@ -104,20 +107,28 @@ const CreateItemForm = ({showModal,setShowModal}) => {
             onChange={updateName}>
             </input>
             <input
-            type="number"
+            className="itemWeightInput"
+            type="textarea"
             id="weightInput"
             placeholder="Weight"
             value={weight}
             onChange={updateWeight}>
             </input>
+            <div className="pickerDiv">
             <CompactPicker
             color={ color}
-            onChangeComplete={ handleColorPick}></CompactPicker>
+            onChangeComplete={ handleColorPick}>
+
+            </CompactPicker>
+            </div>
+            <div className="submitWrapper">
             <input id="submitCreateItem" type="submit" value={"Submit"}></input>
+
+                </div>
                 </form>
             </div>
         </Modal2>
-
+        </div>
     )
 }
 

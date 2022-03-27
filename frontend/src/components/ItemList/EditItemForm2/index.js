@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 import { updateItem } from "../../../store/item";
 import { Modal2 } from "../../Item/context/Modal"
 import { SketchPicker,CompactPicker } from 'react-color';
-
+import "./editform.css"
 function EditItemForm2({item,editOnGrid,showModal,setShowModal}) {
     const [name,setName] = useState(item.name)
     const [weight,setWeight] = useState(item.weight)
     const [color,setColor] = useState(item.color)
     const [validationErrors,setValidationErrors] = useState([])
-
+    let initial = true;
     const dispatch = useDispatch()
     const handleSubmit = async (e) => {
         let errors = []
@@ -30,7 +30,13 @@ function EditItemForm2({item,editOnGrid,showModal,setShowModal}) {
         let errors = [];
         let submit = document.getElementById("submitEditItem")
         let errorFlag = false
-
+        if(name === item.name && parseInt(weight) === parseInt(item.weight) && color === item.color)
+        {
+            submit.disabled = true
+            errors.push("No change to values")
+            setValidationErrors(errors)
+            return
+        }
         if(name.length === 0){
             errors.push("Please provide a name")
             errorFlag = true
@@ -59,10 +65,7 @@ function EditItemForm2({item,editOnGrid,showModal,setShowModal}) {
         } else{
             submit.disabled = false
         }
-        if(name === item.name && parseInt(weight) === parseInt(item.weight) && color === item.color)
-        {
-            submit.disabled = true
-        }
+
         setValidationErrors(errors)
         }
     },[name,weight,color])
@@ -74,13 +77,14 @@ function EditItemForm2({item,editOnGrid,showModal,setShowModal}) {
         setColor(color.hex)
     }
 let count = 0
-return <Modal2
+return <div className="itemFormContainer">
+<Modal2
     title={`Edit Item for ${item.name}`}
     onClose={ () => {
     setShowModal(false)}}
     show ={showModal}
 >
-    <form onSubmit={handleSubmit}>
+    <form className ={"editItemForm"}onSubmit={handleSubmit}>
     <div>
           {validationErrors.length > 0 && (
             <div className='errorsContainer'>
@@ -91,27 +95,34 @@ return <Modal2
           )}
             </div>
     <input
+    className="itemNameInput"
     type="text"
     placeholder="Name"
     value={name}
     onChange={updateName}
     ></input>
     <input
+    className="itemWeightInput"
+
     type="number"
     placeholder="Weight"
     value={weight}
     onChange={updateWeight}
     >
     </input>
+    <div className="pickerDiv">
     <CompactPicker
             color={ color}
             onChangeComplete={ handleColorPick}></CompactPicker>
+        </div>
+        <div className="submitWrapper">
     <input
-    disabled = {true}
-    id='submitEditItem' type={'submit'}></input>
-
+    id='submitEditItem' type={'submit'}>
+    </input>
+</div>
     </form>
 </Modal2>
+</div>
 }
 
 export default EditItemForm2
