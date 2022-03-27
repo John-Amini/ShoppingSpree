@@ -306,12 +306,9 @@ const Grid = (props) =>{
         {currLayout && currLayout.name}
         </div>
 
-        {showEditModal && <EditLayoutForm showModal={showEditModal}
-        setShowModal={setShowEditModal}
-        currLayout = {currLayout}
-        ></EditLayoutForm>}
-        {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
+
         <Item removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></Item>
+
     <div className="grid">
     {grid.map((currRow,currRowIndex) => {
         return <div className="column" key={`${currRowIndex} column`}>
@@ -336,6 +333,11 @@ const Grid = (props) =>{
         </div>
     })}
      </div>
+     {showEditModal && <EditLayoutForm showModal={showEditModal}
+        setShowModal={setShowEditModal}
+        currLayout = {currLayout}
+        ></EditLayoutForm>}
+        {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
      </div>
 }
 

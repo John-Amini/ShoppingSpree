@@ -92,7 +92,7 @@ router.put ('/name/:layoutId',requireAuth,asyncHandler(async(req,res) => {
     const name = req.body.name
     const originalName = req.body.originalName
     if(name === originalName){
-        return res.json({error:"Please Provide a different name than the original"})
+        return res.json({error:"Same as Original name"})
     }
     let layoutService = new LayoutService(new LayoutRepository());
     if(await layoutService.checkIfNameExists(name,req.user.dataValues.id)){

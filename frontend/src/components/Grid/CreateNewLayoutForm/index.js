@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { createNewLayout } from "../../../store/layout";
 import { Modal2 } from './context/Modal'
+import "./createLayout.css"
 const CreateLayoutForm = ({showModal,setShowModal}) => {
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
@@ -11,10 +12,10 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
     const updateTitle = e => setTitle(e.target.value);
     useEffect( () => {
       let errors = []
-      const button = document.getElementById('submitCreateWatchlist');
+      const button = document.getElementById('submitCreateLayout');
       let errorFlag = false
       if(title.length > 16 ) {
-        errors.push("Layout name can be max 16 characters")
+        errors.push("Maximum of 16 characters")
         errorFlag = true
       } else if (title.length === 0){
         errors.push("Layout must have a name")
@@ -33,7 +34,7 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
       e.preventDefault();
       const errors = [];
       if (title) {
-        const button = document.getElementById('submitCreateWatchlist');
+        const button = document.getElementById('submitCreateLayout');
         const titleInput = document.getElementById('titleInput');
 
         button.disabled = true;
@@ -52,14 +53,14 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
     };
     let count = 0;
 return (
-    <div className='create-watchlist-container'>
+    <div className='create-layout-container'>
     <Modal2
     className={"modalWatchlist"}
     title={`Create New layout`}
           onClose={() => setShowModal(false)}
           show={showModal}>
       <div>
-        <form className='createWatchlistForm' onSubmit={handleSubmit}>
+        <form className='createLayoutForm' onSubmit={handleSubmit}>
           <div>
           {validationErrors.length > 0 && (
             <div className='errorsContainer'>
@@ -71,13 +72,16 @@ return (
             </div>
 
             <input
+            className="createInput"
               type='textarea'
               id='titleInput'
               placeholder='Title'
               value={title}
               onChange={updateTitle}
             />
-          <input id='submitCreateWatchlist' type={'submit'}></input>
+            <div className="submitWrapper">
+          <input id='submitCreateLayout' className="saveSubmit" type={'submit'}></input>
+          </div>
         </form>
       </div>
     </Modal2>

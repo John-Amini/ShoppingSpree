@@ -97,12 +97,9 @@ button {
     color: white;
 }
 
-.optimize{
-
-}
 .optimize:hover{
     color: white;
-    background-color: aqua;
+    background-color: seagreen;
 }
 
 .edit:hover{

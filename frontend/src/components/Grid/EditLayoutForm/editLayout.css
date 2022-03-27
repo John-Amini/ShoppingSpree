@@ -1,0 +1,49 @@
+#submitEditLayout:hover{
+    background-color: #008000;
+    color: white;
+}
+
+#submitEditLayout{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 1px black solid;
+    border-radius: 5px;
+    padding-bottom: 3px;
+    cursor: pointer;
+    background-color: lavender;
+    transition-duration: .3s;
+    background-color: #343A40;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 16px;
+    width: 80px;
+}
+
+.editLayoutForm{
+    display: flex;
+    flex-direction: column;
+}
+
+.submitWrapper{
+    display: flex;
+    justify-content: right;
+    padding-top: 5px;
+    margin-bottom: 0px !important;
+}
+
+.editInput {
+    height: 30px;
+    width: 210px;
+}
+
+.edit-layout-container .errorsContainer{
+    margin-bottom: 0px !important;
+}
+
+.edit-layout-container .modal-body{
+    padding: 0;
+}
+
+.edit-layout-container .button:hover{
+    background-color: orangered;
+}

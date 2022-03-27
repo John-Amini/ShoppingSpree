@@ -35,7 +35,7 @@ function EditItemForm({item,editOnGrid}) {
             errorFlag = true
         }
         else if(name.length > 16){
-            errors.push("Name cannot be greater than 16 characters")
+            errors.push("Name is a maximum of 16 characters")
             errorFlag = true
         }
 
