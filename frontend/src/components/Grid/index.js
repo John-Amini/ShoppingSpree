@@ -13,8 +13,7 @@ import EditLayoutForm from "./EditLayoutForm";
 const Grid = (props) =>{
     let rows = 30
     let columns = 62
-    const start = "start"
-    const end = "end"
+
     // console.log("rerender grid")
     let dispatch = useDispatch()
     const [grid,setGrid] = useState([]);
@@ -24,7 +23,6 @@ const Grid = (props) =>{
     const [currPointer,setCurrPointer] = useState('none')
     // let currPointer = props.currPointer;
     // let setCurrPointer = props.setCurrPointer;
-    const sessionUser = useSelector(state => state.session.user);
     let currLayout =useSelector (state => state.layouts.currLayout)
     let layoutList = useSelector(state => state.layouts.layoutList)
     let items = useSelector(state=>state.items)
@@ -33,6 +31,9 @@ const Grid = (props) =>{
     const [showErrorModal,setShowErrorModal] = useState(false)
     const [showEditModal,setShowEditModal] = useState(false)
     const [originalGrid,setOriginalGrid] = useState(null)
+    useEffect(async () => {
+        await dispatch(loadLayouts())
+    },[])
     useEffect( () => {
         if(currLayout)
         setName(currLayout.name)
@@ -338,7 +339,7 @@ const Grid = (props) =>{
         setShowModal={setShowEditModal}
         currLayout = {currLayout}
         ></EditLayoutForm>}
-        {showModal && <CreateLayoutForm setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
+        {showModal && <CreateLayoutForm setCurrPointer={setCurrPointer} setShowModal={setShowModal} showModal={showModal}></CreateLayoutForm>}
      </div>
 }
 

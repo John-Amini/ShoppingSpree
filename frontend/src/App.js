@@ -5,14 +5,11 @@ import SignupFormPage from './components/SignupFormPage';
 // import LoginFormPage from "./components/LoginFormPage";
 import * as sessionActions from './store/session';
 import Navigation from './components/Navigation';
-import { Modal } from './context/Modal';
 import Grid from './components/Grid';
-import SelectType from './components/SelectType';
-import { loadLayouts } from './store/layout';
 import LoginFormPage from './components/LoginFormPage';
 import { BrowserRouter } from 'react-router-dom';
 import Splash from './components/Splash';
-import { Redirect,Link } from 'react-router-dom';
+import { Redirect} from 'react-router-dom';
 import Footer from './components/footer';
 function App() {
 
@@ -21,8 +18,9 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   // const [showModal, setShowModal] = useState(false);
   const [currPointer,setCurrPointer] = useState("none")
-  useEffect(async () => {
-    await dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true)).then(()=> dispatch(loadLayouts()));
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
+    // .then(()=> dispatch(loadLayouts()));
     // if(sessionUser)
     //   await dispatch(loadLayouts())
   }, [dispatch]);

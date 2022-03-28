@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
-import { createNewLayout, editNameOfLayout } from "../../../store/layout";
+import { useDispatch } from "react-redux";
+import { editNameOfLayout } from "../../../store/layout";
 import { Modal2 } from './context/Modal'
 import "./editLayout.css"
 const EditLayoutForm = ({showModal,setShowModal,currLayout}) => {
-    const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const [title, setTitle] = useState(currLayout.name);
     const [validationErrors, setValidationErrors] = useState([]);

@@ -50,7 +50,7 @@ const ItemList = ({removeFromGrid,editOnGrid}) => {
     {/* onMouseOver={(e) => {e.target.style.setProperty("background-color",item.color)}}
     onMouseLeave={(e) => {e.target.style.removeProperty("background-color")}} */}
 
-    {items.items && items.items.map( (item) => <div
+    {items.items && items.items.map( (item) => <div key={`listItem ${item.id}`}
 
     className="indiItem">
         <div className="colorDiv" style = {{backgroundColor:item.color}}></div>

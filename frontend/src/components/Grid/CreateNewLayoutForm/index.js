@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createNewLayout } from "../../../store/layout";
 import { Modal2 } from './context/Modal'
 import "./createLayout.css"
-const CreateLayoutForm = ({showModal,setShowModal}) => {
-    const sessionUser = useSelector(state => state.session.user);
+const CreateLayoutForm = ({showModal,setShowModal ,setCurrPointer}) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [validationErrors, setValidationErrors] = useState([]);
@@ -48,6 +47,9 @@ const CreateLayoutForm = ({showModal,setShowModal}) => {
         } else {
           // new watch list was created need to rerender or reload
           setShowModal(false)
+          setCurrPointer("none")
+          let select = document.getElementById("itemSelect")
+          select.value = "none"
         }
       }
     };

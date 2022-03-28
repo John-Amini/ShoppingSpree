@@ -11,13 +11,13 @@ const SelectType = (props) => {
     }
     return (
         <select className="itemSelect" id={"itemSelect"} onChange={(e) => change(e)}>
-            <option selected = "selected" id={'none'} value={"none"}>None</option>
+            <option id={'none'} value={"none"}>None</option>
             <option value={"start"}>start</option>
             <option value={"end"}>end</option>
 
             <option value={"wall"}>wall</option>
             {items.items && items.items.map((item) => {
-                return <option value={item.id}> {item.name}</option>
+                return <option key={`item ${item.id}`} value={item.id}> {item.name}</option>
             })}
         </select>
     )

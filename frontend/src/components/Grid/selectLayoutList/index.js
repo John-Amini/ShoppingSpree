@@ -22,7 +22,7 @@ const SelectLayoutList = (props) => {
     return <select onChange={(e) => handleChange(e) }>
         {layoutList && layoutList.map( (layout) => {
 
-            return <option id={`option${layout.id}`}value={layout.id}>{layout.name}
+            return <option key={layout.id} id={`option${layout.id}`}value={layout.id}>{layout.name}
             </option>
         })}
         </select>
