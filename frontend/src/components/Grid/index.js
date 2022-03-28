@@ -309,7 +309,7 @@ const Grid = (props) =>{
         </div>
 
 
-        <Item removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></Item>
+        <Item currPointer={currPointer} setCurrPointer={setCurrPointer} removeFromGrid={removeFromGrid} editOnGrid={editOnGrid}></Item>
 
     <div className="grid">
     {grid.map((currRow,currRowIndex) => {
