@@ -126,8 +126,13 @@ export const LoadOneLayout = (layoutId) => async dispatch => {
         // console.log(data)
         // console.log(data.id)
         // console.log(data.layout)
-        let layoutMatrix = await JSON.parse(data.layout);
-        data.layout = layoutMatrix;
+        let layoutMatrix;
+        if(typeof data.layout === 'string'){
+            layoutMatrix = await JSON.parse(data.layout)
+            data.layout = layoutMatrix
+        }
+        // layoutMatrix = await JSON.parse(data.layout);
+        // data.layout = layoutMatrix;
         // console.log(data)
         await dispatch(loadOneLayoutType(data))
     } else{
