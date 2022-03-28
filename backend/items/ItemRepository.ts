@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import db from "../db/models"
 import { Item } from "./types"
 
@@ -35,13 +36,29 @@ export class ItemRepository {
 
     public async checkIfNameExists(name:string,layoutId:number):Promise<Boolean>{
         let exists = await this.ItemConn.findAll({
-            where:{layoutId,
-            name:name
+            where:{ layoutId,
+                    name:name,
+
             }
         })
         if(exists.length === 0) return false;
         return true;
     }
+
+    public async checkIfNameExistsEdit(name:string,layoutId:number,itemId:number):Promise<Boolean>{
+        let exists = await this.ItemConn.findAll({
+            where:{ layoutId,
+                    name:name,
+                    id:{
+                     [Op.ne]:itemId
+                    }
+
+            }
+        })
+        if(exists.length === 0) return false;
+        return true;
+    }
+
     public async getLayoutIdOfItem(itemId:number):Promise<number>{
         let item = await this.ItemConn.findByPk(itemId);
         return item.layoutId

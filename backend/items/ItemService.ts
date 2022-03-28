@@ -21,8 +21,8 @@ export class ItemService{
         const item = await this.itemRepo.deleteItem(itemId)
         return item;
     }
-    public async checkIfNameExists (name:string,layoutId:number): Promise<Boolean>{
-        return await this.itemRepo.checkIfNameExists(name,layoutId)
+    public async checkIfNameExists (name:string, layoutId:number): Promise<Boolean>{
+        return await this.itemRepo.checkIfNameExists(name, layoutId)
     }
     public async getLayoutIdOfItem(itemId:number):Promise<number>{
         return await this.itemRepo.getLayoutIdOfItem(itemId)
@@ -32,5 +32,8 @@ export class ItemService{
     }
     public async getOneItem (itemId:number):Promise<Item>{
         return await this.itemRepo.getOneItem(itemId);
+    }
+    public async checkIfNameExistsEdit (name:string, layoutId:number, itemId:number): Promise<Boolean>{
+        return await this.itemRepo.checkIfNameExistsEdit(name, layoutId, itemId)
     }
 }

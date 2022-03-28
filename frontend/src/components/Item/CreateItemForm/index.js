@@ -46,6 +46,9 @@ const CreateItemForm = ({showModal,setShowModal}) => {
         } else if(!/^[0-9]+$/.test(weight)){
             errors.push("Weight must only contain positive whole numbers")
             errorFlag = true
+        } else if(weight > 1000){
+            errors.push("Weight cannot be greater than 100")
+            errorFlag = true
         }
        else if(parseInt(weight) === 0){
             errors.push("Weight cannot be 0")

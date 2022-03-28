@@ -46,16 +46,19 @@ function EditItemForm2({item,editOnGrid,showModal,setShowModal}) {
             errorFlag = true
         }
 
-        if(weight.length !== 0 && !/^[0-9]+$/.test(weight)){
+        if(weight.length === 0){
+            errors.push("Please provide a weight")
+            errorFlag = true
+        } else if(!/^[0-9]+$/.test(weight)){
             errors.push("Weight must only contain positive whole numbers")
             errorFlag = true
         }
-        if(parseInt(weight)===0){
-            errors.push("Weight cannot be 0")
+        else if(weight > 1000){
+            errors.push("Weight cannot be greater than 100")
             errorFlag = true
         }
-        else if(weight.length === 0){
-            errors.push("Please provide a weight")
+       else if(parseInt(weight) === 0){
+            errors.push("Weight cannot be 0")
             errorFlag = true
         }
         if(submit){
@@ -104,7 +107,7 @@ return <div className="itemFormContainer">
     <input
     className="itemWeightInput"
 
-    type="number"
+    type="textarea"
     placeholder="Weight"
     value={weight}
     onChange={updateWeight}

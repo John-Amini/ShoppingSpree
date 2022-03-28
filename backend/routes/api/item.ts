@@ -48,7 +48,8 @@ router.put("/:itemId",requireAuth,asyncHandler(async(req,res)=>{
     const itemService  = getNewItemService()
     let layoutId = await itemService.getLayoutIdOfItem(itemId);
     console.log(layoutId)
-    if(await itemService.checkIfNameExists(name,layoutId)){
+    let bool = await itemService.checkIfNameExistsEdit(name, layoutId , itemId)
+    if(bool){
         return res.json({errors:"Item with that name exists"})
     }
     const item = await itemService.updateItem(itemId,name,weight, color)

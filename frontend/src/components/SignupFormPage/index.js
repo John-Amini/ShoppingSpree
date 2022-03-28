@@ -136,11 +136,17 @@ function SignupFormPage() {
         </label>
           <div>
             <label>Email</label>
-            <input type='text' name='email' onChange={(e) => setEmail(e.target.value)} value={email}></input>
+
+            <input
+              required={true}
+              type='text' name='email' onChange={(e) => setEmail(e.target.value)} value={email}></input>
           </div>
           <div>
             <label>Password</label>
-            <input type='password' name='password' onChange={(e)=>setPassword(e.target.value)} value={password}></input>
+            <input
+              required={true}
+
+            type='password' name='password' onChange={(e)=>setPassword(e.target.value)} value={password}></input>
           </div>
           <div>
             <label>Confirm Password</label>
