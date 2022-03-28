@@ -123,3 +123,7 @@ button {
     background-color: #008000 !important;
     color: white;
 }
+
+.sign-up-form{
+    width: 400px;
+}
