@@ -30,9 +30,9 @@ export function GetBoundries(matrix: Point[][]): { xMin: number, xMax: number, y
 
 // string in graph is type
 export function GenerateGraph(matrix: Point[][]): Graph {
-
+    //all points is a list of points that you have to run bfs on
     const allPoints = findBFSPoints(matrix);
-
+    //result of actually running bfs on each allPoints result node
     const allBFS = GetAllPaths(matrix);
 
     const toKeyVal = allBFS.map(x => ({ key: GraphEntityToMapKey(BFSEntityToGraphEntity(x.startPoint.type)), value: ToVertices(x.startPoint, x.allPaths) }))
@@ -49,14 +49,6 @@ export function GenerateGraph(matrix: Point[][]): Graph {
 
     for (let key of map.keys()) {
         if(map.get(key)?.edges.length != pointsCount){
-            // const i = map.get(key)
-            // switch(i?.entity.Kind){
-            //     case 'Start':
-            //     case 'End':
-            //         throw new Error(`${i.entity.Kind} cannot reach all points!`);
-            //     case 'Item':
-            //         throw new Error(`An ${i.entity.Kind} cannot reach all points`);
-            // }
             throw new Error("All points cannot be reached!")
         }
     }
@@ -69,7 +61,7 @@ export function GenerateGraph(matrix: Point[][]): Graph {
 export function GetAllPaths(matrix: Point[][]) {
 
     const allPoints = findBFSPoints(matrix);
-
+    //getPointAndDist is making a list of paths from that point x
     const allBFS = _.chain(allPoints).map(x => ({ startPoint: x, allPaths: GetPointAndDist(matrix, x) })).value();
 
     return allBFS;
@@ -160,6 +152,7 @@ export function GetPointAndDist(matrix: Point[][], initialPoint: Point): PointAn
     //const levelOrderTraversal = LeveledOrderBFS(matrix, _.chain([initial] as PointAndPath[]), new Set<string>());
     const visited = new Set<string>();
     visited.add(JSON.stringify({ x: initial.point.row, y: initial.point.column }));
+    //list of lists of the bfs
     const levelOrderTraversal = _.chain(LeveledOrderBFS(matrix, [initial], visited));
 
     const withDist = levelOrderTraversal.flatMap((x, i) => x.map(pointAndPath => ({ pointAndPath: pointAndPath, distance: i })));
@@ -184,7 +177,8 @@ export function LeveledOrderBFS(matrix: Point[][], queue: PointAndPath[], visite
         return [[]]
     }
 
-    const next = _.chain(thisLevel).flatMap(p => {
+
+    const next = _.flatMap(thisLevel,p => {
 
         const traversal = GetTraversal(matrix, p.point, visited);
 
@@ -195,33 +189,10 @@ export function LeveledOrderBFS(matrix: Point[][], queue: PointAndPath[], visite
             path: _.cloneDeep(p.path).concat({ x: c.x, y: c.y }),
         }))
         return nextLevel;
-    }).value();
-
+    })
     return [thisLevel].concat(LeveledOrderBFS(matrix, next, visited).filter(x => x.length != 0));
-    //return _.chain(new Array(thisLevel)).concat(LeveledOrderBFS(matrix, next, visited).);
 }
 
-// export function LeveledOrderBFS(matrix: Point[][], queue: CollectionChain<PointAndPath>, visited: Set<string>): CollectionChain<PointAndPath[]> {
-//     const thisLevel = queue.value();
-
-//     if(thisLevel.length == 0) {
-//         return _.chain([thisLevel])
-//     }
-
-//     const next = _.chain(thisLevel).flatMap(p => {
-//         visited.add(JSON.stringify({ x: p.point.row, y: p.point.column }));
-
-//         const traversal = GetTraversal(matrix, p.point, visited);
-//         const nextLevel: PointAndPath[] = traversal.map(c => ({
-//             point: matrix[c.x][c.y],
-//             path: _.cloneDeep(p.path).concat({ x: c.x, y: c.y }),
-//         }))
-//         return nextLevel;
-//     })
-
-//     return _.chain(new Array(thisLevel)).concat(LeveledOrderBFS(matrix, next, visited).filter(x => x.length != 0).value());
-//     //return _.chain(new Array(thisLevel)).concat(LeveledOrderBFS(matrix, next, visited).);
-// }
 
 export function GetTraversal(matrix: Point[][], currPoint: Point, visited: Set<string>): Coordinate[] {
     const { xMin, xMax, yMin, yMax } = GetBoundries(matrix);
