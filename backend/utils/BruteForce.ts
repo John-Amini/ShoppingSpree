@@ -3,12 +3,12 @@ import _, { CollectionChain } from 'lodash';
 export type Start = { Kind: 'Start' }
 export type End = { Kind: 'End' }
 export type Item = { Kind: 'Item', ItemId: number; }
-
+export type Placeholder = {Kind:'Placeholder'}
 export type GraphEntity =
     | Start
     | End
     | Item
-
+    | Placeholder
 export type Vertex = {
     entity: GraphEntity;
     edges: { entity: GraphEntity, weight: number }[];

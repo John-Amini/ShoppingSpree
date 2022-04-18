@@ -21,7 +21,7 @@ export function createPath(allPaths,solution){
 }
 
 function findCurrInAllPaths(paths,from,to){
-    console.log(from.Kind)
+    // console.log(from.Kind)
     let filtered = paths.filter((x) => x.startPoint.type === from.Kind.toLowerCase() || String(from.ItemId) === x.startPoint.type)
     let pathsFromCurr = filtered[0].allPaths
     let toPointAndPath = pathsFromCurr.filter((x) => x.point.type === to.Kind.toLowerCase() || String(to.ItemId) === x.point.type)

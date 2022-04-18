@@ -10,6 +10,7 @@ import { BruteForce } from "../../utils/BruteForce"
 import { createPath } from "../../utils/createPath"
 import { ItemService } from "../../items/ItemService"
 import { ItemRepository } from "../../items/ItemRepository"
+import { branchAndBound } from "../../utils/branchAndBound"
 
 export const router = express.Router();
 
@@ -35,6 +36,8 @@ router.post('/optimize',requireAuth,asyncHandler(async (req,res)=> {
     console.log("Optimize")
     try{
     let graph = GenerateGraph(req.body.grid);
+
+    branchAndBound(graph);
     let getAllPaths = GetAllPaths(req.body.grid)
     let solution = BruteForce(graph)
     let testReplacer = JSON.stringify(graph,replacer)

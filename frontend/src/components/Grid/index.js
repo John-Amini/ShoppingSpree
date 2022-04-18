@@ -220,7 +220,7 @@ const Grid = (props) =>{
                     pointOnGrid.solution = true;
                 }
                 setGrid(newGrid)
-            },60*i)
+            },5*i)
             //was 60
             //prev === color at the start
              // => each none doesnt matter set that to current color
