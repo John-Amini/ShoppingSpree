@@ -37,13 +37,14 @@ router.post('/optimize',requireAuth,asyncHandler(async (req,res)=> {
     try{
     let graph = GenerateGraph(req.body.grid);
 
-    branchAndBound(graph);
+   let solution = branchAndBound(graph);
     let getAllPaths = GetAllPaths(req.body.grid)
-    let solution = BruteForce(graph)
+    // let solution = BruteForce(graph)
     let testReplacer = JSON.stringify(graph,replacer)
     // console.log(json)
     // console.log(solution)
     let path = createPath(getAllPaths,solution)
+    console.log(solution);
     return res.json({solution,testReplacer,getAllPaths,path})
     } catch(e){
         let errorMessage = getErrorMessage(e);
