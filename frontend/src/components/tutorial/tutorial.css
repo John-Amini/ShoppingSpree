@@ -1,0 +1,19 @@
+
+.tutorial .modal-content{
+    width: fit-content;
+}
+.root .rsis-container{
+    background-size: cover !important;
+
+}
+.root .rsis-container .rsis-image{
+    background-size: cover !important;
+
+}
+.root img {
+    background-color: black !important;
+}
+
+.root button:hover{
+    background-color: green !important;
+}

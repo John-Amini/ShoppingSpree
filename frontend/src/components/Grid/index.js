@@ -9,6 +9,7 @@ import "./grid.css"
 import SelectLayoutList from "./selectLayoutList";
 import { Modal2 } from "./CreateNewLayoutForm/context/Modal";
 import EditLayoutForm from "./EditLayoutForm";
+import Tutorial from "../tutorial";
 // use  context provider to determine what ill be clicking?
 const Grid = (props) =>{
     let rows = 30
@@ -31,6 +32,7 @@ const Grid = (props) =>{
     const [showErrorModal,setShowErrorModal] = useState(false)
     const [showEditModal,setShowEditModal] = useState(false)
     const [originalGrid,setOriginalGrid] = useState(null)
+    const [tutorialModal,setTutorialModal] = useState(false)
     useEffect(async () => {
         await dispatch(loadLayouts())
     },[])
@@ -149,6 +151,14 @@ const Grid = (props) =>{
     }
     async function handleSaveLayout(e){
         await dispatch(saveCurrentLayout(grid,currLayout.id))
+        let saved = document.getElementById("saved")
+        saved.classList.remove("hide")
+        setTimeout(
+        () => {
+            saved.classList.add("hide")
+        }
+,1000
+        )
     }
 
     async function handleDelete(e){
@@ -268,7 +278,14 @@ const Grid = (props) =>{
         setGrid(originalGrid);
         setOriginalGrid(null)
     }
+
+    const toggleTutorial = () => {
+        setTutorialModal(true)
+    }
+
+
     return <div>
+        {tutorialModal && <Tutorial showModal={tutorialModal} setShowModal = {setTutorialModal}></Tutorial>}
         {showErrorModal && <Modal2 title={`Errors`}
         onClose={ () => setShowErrorModal(false) }
         show={showErrorModal}
@@ -281,7 +298,7 @@ const Grid = (props) =>{
                 <label className="label">Select Layout:</label>
         <SelectLayoutList setCurrPointer={setCurrPointer}></SelectLayoutList>
         <button className={"newLayoutButton create"}onClick={toggleShowModal}>New Layout</button>
-
+        <button className="tutorialButton" onClick={ () => toggleTutorial()}>See tutorial</button>
         </div>
             <div className="selectTypeWrapper containerForSelect"> <label className="label" >Select Option:</label>
             <SelectType setCurrPointer = {setCurrPointer} currPointer={currPointer}></SelectType>
@@ -289,10 +306,12 @@ const Grid = (props) =>{
 
             </div>
             <div className="layoutOptionsContainer">
-
+        <div className="saveButtonContainer">
         <button className={"saveSubmit"}onClick={ async (e)=>{
             handleSaveLayout(e)
         }}> Save Layout </button>
+        <div id="saved" className="saved hide">Layout Saved</div>
+        </div>
         <button className="delete" onClick={(e) => handleDelete(e)}>Delete Layout</button>
 
 

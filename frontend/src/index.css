@@ -127,3 +127,7 @@ button {
 .sign-up-form{
     width: 400px;
 }
+
+.tutorialButton {
+    margin-left: 15px;
+}

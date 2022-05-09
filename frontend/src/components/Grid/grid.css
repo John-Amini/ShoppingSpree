@@ -82,3 +82,21 @@
     margin-left: 10px;
     transition-duration: .3s;
 }
+
+.saveButtonContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.saved{
+    position: absolute;
+    left: 10px;
+    color: green;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.saved.hide{
+    opacity: 0;
+    pointer-events: none;
+}
