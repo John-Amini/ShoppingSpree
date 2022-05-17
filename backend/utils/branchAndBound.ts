@@ -41,6 +41,16 @@ return placeHolder
 export const branchAndBound = (graph:Graph) => {
     // let graphString = (JSON.stringify(originalGraph,replacer))
     // let graph = JSON.parse(graphString,reviver)
+    const startNode = graph.vertices.get('Start')
+    if (!startNode) {
+        throw new Error('No Start Node in Graph')
+    }
+
+    const endNode = graph.vertices.get('End')
+    if (!endNode) {
+        throw new Error('No End Node in Graph')
+    }
+
     upper = Number.MAX_VALUE;
 
     console.log("branch and bound")

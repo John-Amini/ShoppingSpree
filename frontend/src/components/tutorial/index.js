@@ -7,8 +7,8 @@ import image3 from "./images/ItemSelect.png"
 import "./tutorial.css"
 function Tutorial({showModal,setShowModal}) {
     const dispatch = useDispatch();
-    const images = [{url:image2},
-        {url:image1},
+    const images = [{url:image1},
+        {url:image2},
         {url:image3}]
     return (  <div className='tutorial root'>
 
